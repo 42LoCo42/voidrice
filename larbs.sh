@@ -134,15 +134,15 @@ installationloop() { \
 		esac
 	done < /tmp/progs.csv ;}
 
-putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriting conflicts
-	dialog --infobox "Downloading and installing config files..." 4 60
-	[ -z "$3" ] && branch="master" || branch="$repobranch"
+installsymbola() {
 	dir=$(mktemp -d)
-	[ ! -d "$2" ] && mkdir -p "$2" && chown -R "$name:wheel" "$2"
-	chown -R "$name:wheel" "$dir"
-	sudo -u "$name" git clone -b "$branch" --depth 1 "$1" "$dir/gitrepo" >/dev/null 2>&1 &&
-	sudo -u "$name" cp -rfT "$dir/gitrepo" "$2"
-	}
+	dialog --title "LARBS Installation" --infobox "Installing ttf-symbola via git, makepkg and the modified source. $n of $total" 5 70
+	git clone https://aur.archlinux.org/ttf-symbola.git "$dir" >/dev/null 2>&1
+	cd "$dir" || exit
+	sed 's/http:\/\/users.teilar.gr\/~g1951d\/Symbola.zip/https:\/\/web.archive.org\/web\/20190608100449\/http:\/\/users.teilar.gr\/~g1951d\/Symbola.zip/g' PKGBUILD >/dev/null 2>&1
+	makepkg -si >/dev/null 2>&1
+	cd /tmp || return ;
+}
 
 getdotfilesbare() {
 	dialog --infobox "Downloading and installing config files..." 4 60
@@ -213,8 +213,10 @@ manualinstall $aurhelper || error "Failed to install AUR helper."
 # and all build dependencies are installed.
 installationloop
 
+# Install ttf-symbola. This requires changing the source of the PKGBUILD.
+installsymbola
+
 # Install the dotfiles in the user's home directory
-#putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch"
 getdotfilesbare
 rm -f "/home/$name/README.md" "/home/$name/LICENSE"
 

@@ -36,7 +36,7 @@ case "$file" in
 	*\.[0-9]) refer -PS -e "$file" | groff -mandoc -T pdf > "$base".pdf ;;
 	*\.rmd) echo "require(rmarkdown); render('$file')" | R -q --vanilla ;;
 	*\.tex) textype "$file" ;;
-	*\.md) pandoc "$file" --from gfm --pdf-engine=pdflatex -o "$base".pdf ;;
+	*\.md) pandoc "$file" --from gfm --pdf-engine=xelatex --variable mainfont="DejaVu Sans" -o "$base".pdf ;;
 	*config.h) sudo make install ;;
     *\.c) cc "$file" -o "$base" && "$base" ;;
 	*\.py) python "$file" ;;

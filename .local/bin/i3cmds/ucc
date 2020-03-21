@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+# Toggles the Universal Control Center
+# It is a permanent tmux session running in workspace 0
+
+TMP_WS="/tmp/ucc_tmp_ws"
+
+ucc_off() {
+	ws=`cat "$TMP_WS"`
+	rm "$TMP_WS"
+	i3-msg "workspace $ws" >/dev/null
+}
+
+ucc_on() {
+	getcurrentws > "$TMP_WS"
+	i3-msg "workspace 0" >/dev/null
+	ucc_start
+}
+
+ucc_start() {
+	session="ucc"
+	tmux has-session -t $session &> /dev/null
+	if [ $? != 0 ]; then
+		tmux new-session -s $session -n $session -d
+		tmux send-keys -t $session "conky" Enter
+		tmux new-window
+		$TERMINAL -e tmux attach -t $session
+	fi
+}
+
+if [ `getcurrentws` = "0" ]; then
+	ucc_off
+else
+	ucc_on
+fi

@@ -1,81 +1,55 @@
-# Basic binds
-super + Return
-	$TERMINAL
-super + d
-	dmenu_run
-super + r
-	$TERMINAL -e $FILE
-super + e
-	$TERMINAL -e neomutt
-super + m
-	$TERMINAL -e ncmpcpp
-super + n
-	$TERMINAL -e newsboat
-super + i
-	$TERMINAL -e htop
-super + y
-	$TERMINAL -e calcurse
+# Programs
+super + a
+	ddspawn dropdowncalc -f mono:pixelsize=24
 super + shift + a
 	$TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
+super + c
+	cabl
 super + shift + c
-	camtoggle
-super + shift + e
-	tutorialvids
-super + shift + w
-	firefox
+	bluetooth-toggle
+super + d
+	dmenu_run
 super + shift + g
 	gimp
-
-# Bluetooth
-super + c
-	bluetooth-toggle
-
-# Et cetera...
+super + i
+	$TERMINAL -e htop
+super + m
+	$TERMINAL -e ncmpcpp
+super + r
+	$TERMINAL -e $FILE
+super + v
+	$TERMINAL -e $EDITOR -c "VimwikiIndex"
+super + shift + w
+	$BROWSER
+super + y
+	$TERMINAL -e calcurse
+super + Return
+	ucc
+super + shift + Return
+	samedir
 super + dead_circumflex
 	dmenuunicode
 super + Scroll_Lock
 	killall screenkey || screenkey
 super + Insert
 	showclip
-super + BackSpace
-	prompt "Shutdown computer?" "sudo -A shutdown -h now"
-super + shift + BackSpace
-	prompt "Reboot computer?" "sudo -A shutdown -r now"
-super + x
-	mpc pause; pauseallmpv; xset dpms 0 0 3; lockscreen.sh && xset dpms 0 0 0
-super + shift + x
-	mpc pause; pauseallmpv; xset dpms 0 0 3; i3lock -e -f -c 1d2021 -n && xset dpms 0 0 0
-XF86Launch1
-	xset dpms force off
-XF86AudioMute
-	lmc mute
-XF86AudioLowerVolume
-	lmc down 5
-shift+XF86AudioLowerVolume
-	lmc down 10
-control+XF86AudioLowerVolume
-	lmc down 1
-XF86AudioRaiseVolume
-	lmc up 5
-shift+XF86AudioRaiseVolume
-	lmc up 10
-control+XF86AudioRaiseVolume
-	lmc up 1
-XF86AudioNext
-	lmc next
-XF86AudioPlay
-	lmc toggle
-XF86AudioPrev
-	lmc prev
-XF86AudioStop
-	lmc toggle
-XF86MonBrightnessDown
-	xbacklight -dec 15
-XF86MonBrightnessUp
-	xbacklight -inc 15
+super + F3
+	displayselect
+super + F5
+	sudo -A systemctl restart NetworkManager
+super + F6
+	transmission-gtk
+super + shift + F6
+	autoclicker
+super + F9
+	dmenumount
+super + F10
+	dmenuumount
+super + F11
+	ducksearch
+super + F12
+	$TERMINAL -e sudo -A nmtui
 
-
-# Recording
 # Take screenshot
 Print
 	maim pic-full-$(date '+%y%m%d-%H%M-%S').png
@@ -111,42 +85,109 @@ super + {_,shift +} udiaeresis
 super + {_,shift +} adiaeresis
 	lmc back {10,120}
 
-# Function keys
-# Show readme
-super + F1
-	groff -mom $HOME/.local/share/larbs/readme.mom -Tpdf | zathura -
-# F2 is restart in i3 right now.
-# Change display
-super + F3
-	displayselect
-# Hibernate
+# Window controls
+super + q
+	kill `xdotool getwindowfocus getwindowpid`
+super + shift + q
+	kill -9 `xdotool getwindowfocus getwindowpid`
+super + shift + z
+	i3resize left
+super + shift + u
+	i3resize down
+super + shift + i
+	i3resize up
+super + shift + o
+	i3resize right
+
+# System control commands
+super + BackSpace
+	prompt "Shutdown computer?" "sudo -A shutdown -h now"
+super + shift + BackSpace
+	prompt "Reboot computer?" "sudo -A shutdown -r now"
+super + x
+	mpc pause; pauseallmpv; xset dpms 0 0 3; lockscreen && xset dpms 0 0 0
+super + shift + x
+	mpc pause; pauseallmpv; xset dpms 0 0 3; i3lock -e -f -c 1d2021 -n && xset dpms 0 0 0
 super + F4
 	prompt 'Hibernate computer?' 'sudo systemctl suspend'
-# Restart/rescan wifi/eth networks
-super + F5
-	sudo -A systemctl restart NetworkManager
-# Start torrent daemon/open interface
-super + F6
-	transmission-gtk
-#	torwrap
-# toggle torrent daemon
-super + F7
-	td-toggle
-# sync email
-super + F8
-	mailsync
-# Mount a USB drive or Android device
-super + F9
-	dmenumount
-# Unmount a USB drive or Android device
-super + F10
-	dmenuumount
-# Search with Duckduckgo
-super + F11
-	ducksearch
-# Network Manager interface
-super + F12
-	$TERMINAL -e sudo -A nmtui
-# Autoclicker
-super + shift + F6
-	~/.local/bin/tools/autoclicker.sh
+# Logout is i3 message, see below
+
+# i3 messages
+super + b
+	i3-msg "bar mode toggle"
+super + shift + b
+	i3-msg "floating toggle"; hover left
+super + f
+	i3-msg "fullscreen toggle"
+super + {_,shift +} h
+	i3-msg "move left {5, 30}"
+super + {_,shift +} j
+	i3-msg "move down {5, 30}"
+super + {_,shift +} k
+	i3-msg "move up {5, 30}"
+super + {_,shift +} l
+	i3-msg "move right {5, 30}"
+super + shift + n
+	i3-msg "floating toggle"; hover right
+super + o
+	i3-msg "sticky toggle"
+super + t
+	i3-msg "split toggle"
+super + space
+	i3-msg "focus mode_toggle"
+super + shift + space
+	i3-msg "floating toggle"
+super + Escape
+	prompt "Logout?" "i3-msg exit"
+super + F2
+	i3-msg "restart"
+
+# Workspace control
+super + {1,2,3,4,5,6,7,8,9,0}
+	i3-msg "workspace {1,2,3,4,5,6,7,8,9,10}"
+super + shift + {1,2,3,4,5,6,7,8,9,0}
+	i3-msg "move container to workspace {1,2,3,4,5,6,7,8,9,10}"
+super + {Left, Down, Up, Right}
+	i3-msg "focus {left, down, up, right}"
+super + shift + {Left, Down, Up, Right}
+	i3-msg "move {left, down, up, right}"
+super + ctrl + {Left, Down, Up, Right}
+	i3-msg "move workspace to output {left, down, up, right}"
+super + ctrl + h
+	i3-msg "move workspace to output left"
+super + ctrl + j
+	i3-msg "move workspace to output down"
+super + ctrl + k
+	i3-msg "move workspace to output up"
+super + ctrl + l
+	i3-msg "move workspace to output right"
+
+# Media keys
+XF86Launch1
+	xset dpms force off
+XF86AudioMute
+	lmc mute
+XF86AudioLowerVolume
+	lmc down 5
+shift+XF86AudioLowerVolume
+	lmc down 15
+control+XF86AudioLowerVolume
+	lmc down 1
+XF86AudioRaiseVolume
+	lmc up 5
+shift+XF86AudioRaiseVolume
+	lmc up 15
+control+XF86AudioRaiseVolume
+	lmc up 1
+XF86AudioNext
+	lmc next
+XF86AudioPlay
+	lmc toggle
+XF86AudioPrev
+	lmc prev
+XF86AudioStop
+	lmc toggle
+XF86MonBrightnessDown
+	xbacklight -dec 15
+XF86MonBrightnessUp
+	xbacklight -inc 15

@@ -161,6 +161,8 @@ super + ctrl + k
 	i3-msg "move workspace to output up"
 super + ctrl + l
 	i3-msg "move workspace to output right"
+super + Tab
+	i3-msg "workspace back_and_forth"
 
 # Media keys
 XF86Launch1

@@ -86,8 +86,7 @@ super + {_,shift +} adiaeresis
 	lmc back {10,120}
 
 # Window controls
-super + q
-	kill `xdotool getwindowfocus getwindowpid`
+# Killing windows via super + q is i3 message, see below
 super + shift + q
 	kill -9 `xdotool getwindowfocus getwindowpid`
 super + shift + z
@@ -131,6 +130,8 @@ super + shift + n
 	i3-msg "floating toggle"; hover right
 super + o
 	i3-msg "sticky toggle"
+super + q
+	i3-msg "kill"
 super + t
 	i3-msg "split toggle"
 super + space

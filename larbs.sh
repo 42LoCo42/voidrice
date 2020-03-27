@@ -14,7 +14,7 @@ while getopts ":a:r:b:p:h" o; do case "${o}" in
 	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
 esac done
 
-[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/42LoCo42/voidrice.git"
+[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/42LoCo42/voidrice"
 [ -z "$progsfile" ] && progsfile="retrolarbs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
 [ -z "$repobranch" ] && repobranch="archi3"
@@ -139,8 +139,8 @@ getdotfilesbare() {
 	pushd "/home/$name"
 	echo ".dotfiles" | sudo -u "$name" tee -a .gitignore >/dev/null
 	sudo -u "$name" git clone -b "$repobranch" --depth 1 --bare "$dotfilesrepo" ".dotfiles"
-	sudo -u "$name" git --git-dir=".dotfiles" --work-tree=$HOME config --local status.showUntrackedFiles no
-	sudo -u "$name" git --git-dir=".dotfiles" --work-tree=$HOME checkout -f
+	sudo -u "$name" git --git-dir=".dotfiles" --work-tree="/home/$name" config --local status.showUntrackedFiles no
+	sudo -u "$name" git --git-dir=".dotfiles" --work-tree="/home/$name" checkout -f
 	popd
 }
 

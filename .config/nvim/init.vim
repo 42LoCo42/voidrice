@@ -43,6 +43,9 @@ inoremap /* /*<space><space>*/<Esc>2hi
 inoremap /** /**<space><space>*/<Esc>2hi
 inoremap // //<space>
 
+" Hotkey for tab opening
+nnoremap <C-End> :tabnew<CR>:edit
+
 " Insert a link to current date (used in my logbook)
 	noremap <leader>l :$read !date -I<CR>V$ypi(<Esc>$a)<Esc>0i<BS>]<Esc>0i[<Esc>
 

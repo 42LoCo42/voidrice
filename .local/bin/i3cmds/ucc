@@ -4,32 +4,43 @@
 # It is a permanent tmux session running in workspace 0
 
 TMP_WS="/tmp/ucc_tmp_ws"
+SESSION="ucc"
+
+current_ws=$(getcurrentws)
 
 ucc_off() {
-	ws=`cat "$TMP_WS"`
+	old_ws=$(cat "$TMP_WS")
 	rm "$TMP_WS"
-	i3-msg "workspace $ws" >/dev/null
+	i3-msg "workspace $old_ws" >/dev/null
 }
 
 ucc_on() {
-	getcurrentws > "$TMP_WS"
+	echo "$current_ws" > "$TMP_WS"
 	i3-msg "workspace 0" >/dev/null
-	ucc_start
 }
 
-ucc_start() {
-	session="ucc"
-	tmux has-session -t $session &> /dev/null
-	if [ $? != 0 ]; then
-		tmux new-session -s $session -n $session -d
-		tmux send-keys -t $session "conky" Enter
-		tmux new-window
-		$TERMINAL -e tmux attach -t $session
+# Create session if it does not exist
+tmux has-session -t "$SESSION" >/dev/null 2>&1
+if [ $? != 0 ]; then
+	tmux new-session -s "$SESSION" -n "status" -d
+	tmux send-keys -t "$SESSION" "conky" Enter
+	tmux new-window
+fi
+
+# Create client if none is attached
+tmux list-clients -t "$SESSION" | grep "$SESSION" >/dev/null
+if [ $? != 0 ]; then
+	# Switch to workspace 0 if not already there
+	if [ "$current_ws" != 0 ]; then
+		ucc_on
 	fi
-}
-
-if [ `getcurrentws` = "0" ]; then
-	ucc_off
+	# Create client
+	$TERMINAL -e tmux attach-session -t "$SESSION"
 else
-	ucc_on
+	# Toggle between workspaces
+	if [ "$current_ws" != 0 ]; then
+		ucc_on
+	else
+		ucc_off
+	fi
 fi

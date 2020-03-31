@@ -1,0 +1,4 @@
+#!/bin/bash
+path=$(pwd)
+tmux new-session -d -c "$path"
+tmux switch-client -n

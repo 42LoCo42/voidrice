@@ -34,19 +34,12 @@ no_focus [title="mpvfloat"]
 
 font pango:JoyPixels 12
 bar {
-	font pango:mono 10
+	font pango:mono 8
 	status_command i3blocks
 	position top
 	mode dock
 	modifier None
 }
-
-#Not included in sxhkd because it's tedious to do so.
-set $freeze Distraction-free mode (super+shift+f to reactivate bindings)
-mode "$freeze" {
-	bindsym $mod+Shift+f mode "default"
-}
-bindsym $mod+Shift+f mode "$freeze"
 
 # i3 does weird things if this line is removed...
 bindsym $mod+XF86Forward workspace next

@@ -43,5 +43,6 @@ case "$file" in
 	*\.go) go run "$file" ;;
 	*\.sent) setsid sent "$file" 2>/dev/null & ;;
 	*\.asciimov) asciimov ;;
+	*\.xjmas) runhaskell Main.hs "$file" "$base".xjx ;;
 	*) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
 esac

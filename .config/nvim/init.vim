@@ -133,3 +133,5 @@ set clipboard+=unnamedplus
 
 " Load filemaps
 	source ~/.config/nvim/filemaps.vim
+" Load coc
+	source ~/.config/nvim/coc.vim

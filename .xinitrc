@@ -14,5 +14,6 @@ unclutter &		# Remove mouse when idle
 xcompmgr &		# xcompmgr for transparency
 dunst &			# dunst for notifications
 mpdupdate &
+calcurse --daemon &
 
 exec i3

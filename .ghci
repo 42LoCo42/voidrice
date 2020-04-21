@@ -1,0 +1,8 @@
+:set prompt "\x03BB> "
+:set prompt-cont " > "
+
+:set -Wall
+:set -O
+:set -isrc
+:set -cpp -DDEBUG -DDEBUG_IS_MODULE
+:load Main.hs

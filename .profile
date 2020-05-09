@@ -12,6 +12,8 @@ export SUDO_ASKPASS="$HOME/.local/bin/tools/dmenupass"
 export NOTMUCH_CONFIG="$HOME/.config/notmuch-config"
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc-2.0"
 
+export PATH="$PATH:$HOME/.cabal/bin:$HOME/.ghcup/bin"
+
 # less/man colors
 export LESS=-R
 export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"; a="${a%_}"
@@ -32,3 +34,4 @@ echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc
 
 # Start graphical server if i3 not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec startx
+if [ -e /home/leonsch/.nix-profile/etc/profile.d/nix.sh ]; then . /home/leonsch/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

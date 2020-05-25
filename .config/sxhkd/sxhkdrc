@@ -104,9 +104,9 @@ super + BackSpace
 super + shift + BackSpace
 	prompt "Reboot computer?" "sudo -A shutdown -r now"
 super + x
-	mpc pause; pauseallmpv; xset dpms 0 0 3; lockscreen && xset dpms 0 0 0
+	mpc pause; pauseallmpv; xinput set-int-prop 10 "Device Enabled" 8 0; xset dpms 0 0 5; lockscreen && xset dpms 0 0 0 && xinput set-int-prop 10 "Device Enabled" 8 1
 super + shift + x
-	mpc pause; pauseallmpv; xset dpms 0 0 3; i3lock -e -f -c 1d2021 -n && xset dpms 0 0 0
+	mpc pause; pauseallmpv; xinput set-int-prop 10 "Device Enabled" 8 0; xset dpms 0 0 5; i3lock -e -f -c 1d2021 -n && xset dpms 0 0 0 && xinput set-int-prop 10 "Device Enabled" 8 1
 super + F4
 	prompt 'Hibernate computer?' 'sudo systemctl suspend'
 # Logout is i3 message, see below

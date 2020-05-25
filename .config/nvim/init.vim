@@ -44,7 +44,7 @@ let mapleader = " "
 " Default bindings =============================================================
 
 " Open tab
-nnoremap <C-End> :tabnew<CR>:CtrlP()<CR>
+nnoremap <C-End> :tabnew<CR>:edit<Space>
 
 " Insert a link to current date
 noremap <leader>l :$read !date -I<CR>V$ypi(<Esc>$a)<Esc>0i<BS>]<Esc>0i[<Esc>

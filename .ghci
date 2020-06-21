@@ -3,6 +3,11 @@
 
 :set -Wall
 :set -O
-:set -isrc
 :set -cpp -DDEBUG -DDEBUG_IS_MODULE
+
+:set -XTemplateHaskell
+:m + Language.Haskell.TH
+:def rq (\qs -> return $ "putStrLn $(stringE . show =<< " ++ qs ++ ")")
+:def pq (\qs -> return $ "putStrLn $(stringE . pprint =<< " ++ qs ++ ")")
+
 :load Main.hs

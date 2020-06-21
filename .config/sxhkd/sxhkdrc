@@ -19,6 +19,8 @@ super + r
 	$TERMINAL -e $FILE
 super + v
 	$TERMINAL -e $EDITOR -c "VimwikiIndex"
+super + w
+	$TERMINAL -e w3m duckduckgo.com/lite
 super + shift + w
 	$BROWSER
 super + y

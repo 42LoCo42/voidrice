@@ -3,7 +3,6 @@ alias ka="killall"
 alias mkd="mkdir -pv"
 alias mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)"
 alias calcurse="calcurse -D ~/.config/calcurse"
-alias magit="nvim -c MagitOnly"
 alias p="sudo pacman"
 alias SS="sudo systemctl"
 alias f="$FILE"
@@ -28,6 +27,7 @@ alias ffmpeg="ffmpeg -hide_banner"
 alias fuck='sudo `history -p !!`'
 alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ghci-core="ghci -ddump-simpl -dsuppress-idinfo -dsuppress-coercions -dsuppress-type-applications -dsuppress-uniques -dsuppress-module-prefixes"
+alias gh="gen-hie | tee hie.yaml"
 
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 

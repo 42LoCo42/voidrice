@@ -8,7 +8,6 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'PotatoesMaster/i3-vim-syntax'
-Plug 'jreybert/vimagit'
 Plug 'LukeSmithxyz/vimling'
 Plug 'vimwiki/vimwiki'
 Plug 'bling/vim-airline'
@@ -16,9 +15,11 @@ Plug 'kovetskiy/sxhkd-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neovimhaskell/haskell-vim'
 Plug 'enomsg/vim-haskellConcealPlus'
+Plug 'alx741/vim-hindent'
 Plug 'alx741/vim-stylishask'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " Settings =====================================================================
@@ -35,6 +36,8 @@ set number
 set tabstop=4
 set shiftwidth=4
 set wildmode=longest,list,full
+set updatetime=100
+highlight clear SignColumn
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 set splitbelow splitright

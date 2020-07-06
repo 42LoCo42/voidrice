@@ -27,7 +27,6 @@ export LESS_TERMCAP_ue="$(printf '%b' '[0m')"; a="${a%_}"
 export WLANDEV="wlp0s20f0u9"
 
 mpd >/dev/null 2>&1 &
-pgrep ssh-agent >/dev/null 2>&1 || eval $(ssh-agent)
 
 [ ! -f ~/.config/shortcutrc ] && shortcuts >/dev/null 2>&1
 

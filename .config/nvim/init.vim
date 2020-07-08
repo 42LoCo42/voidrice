@@ -15,7 +15,6 @@ Plug 'kovetskiy/sxhkd-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neovimhaskell/haskell-vim'
 Plug 'enomsg/vim-haskellConcealPlus'
-Plug 'alx741/vim-hindent'
 Plug 'alx741/vim-stylishask'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
@@ -37,6 +36,7 @@ set tabstop=4
 set shiftwidth=4
 set wildmode=longest,list,full
 set updatetime=100
+set colorcolumn=80
 highlight clear SignColumn
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.

@@ -37,6 +37,7 @@ set shiftwidth=4
 set wildmode=longest,list,full
 set updatetime=100
 set colorcolumn=80
+highlight ColorColumn ctermbg=black
 highlight clear SignColumn
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.

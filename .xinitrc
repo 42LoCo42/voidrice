@@ -15,6 +15,5 @@ xcompmgr &		# xcompmgr for transparency
 dunst &			# dunst for notifications
 mpdupdate &
 calcurse --daemon &
-cadmus &
 
 exec i3

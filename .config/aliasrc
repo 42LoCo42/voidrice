@@ -32,3 +32,5 @@ alias gh="gen-hie | tee hie.yaml"
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 
 vf() { fzf | xargs -r -I % $EDITOR % ;}
+
+ignore() { gibo dump "$@" > .gitignore ;}

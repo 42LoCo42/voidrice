@@ -1,10 +1,10 @@
 #
-# Calcurse Tasten Konfiguration 
+# Calcurse keys configuration file
 #
-# In dieser Datei sind die Tastaturkürzel für calcurse festgelegt.
-# Sie wird automatisch von Calcurse angelegt und von 
-# calcurse verwaltet. Eine manuelle Bearbeitung ist nicht
-# empfohlen.
+# In this file the keybindings used by Calcurse are defined.
+# It is generated automatically by Calcurse and is maintained
+# via the key configuration menu of the interactive user
+# interface. It should not be edited directly.
 
 generic-cancel  ESC 
 generic-select  SPC 

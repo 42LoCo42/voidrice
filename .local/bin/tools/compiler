@@ -47,5 +47,6 @@ case "$file" in
 		runhaskell Main.hs "$file" "$base".xjx.tmp
 		cat DEFAULT.xjx "$base".xjx.tmp > "$base".xjx
 		rm "$base".xjx.tmp ;;
+	*\.asm) ./boot.sh "${file%.*}" ;;
 	*) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
 esac

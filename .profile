@@ -24,7 +24,7 @@ export LESS_TERMCAP_se="$(printf '%b' '[0m')"; a="${a%_}"
 export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"; a="${a%_}"
 export LESS_TERMCAP_ue="$(printf '%b' '[0m')"; a="${a%_}"
 
-export WLANDEV="wlp0s20f0u9"
+export TERM="st-256color"
 
 mpd >/dev/null 2>&1 &
 

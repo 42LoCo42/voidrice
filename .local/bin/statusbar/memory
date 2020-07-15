@@ -6,6 +6,6 @@ case $BLOCK_BUTTON in
 - Click to show memory hogs." ;;
 esac
 
-free -h | awk '/^Mem:/ {printf $3 "/" $2}'
+free -h | sed '2!d' - | awk '{printf $3 "/" $2}'
 echo -n " + "
-free -h | awk '/^Swap:/ {print $3 "/" $2}'
+free -h | sed '3!d' - | awk '{print $3 "/" $2}'

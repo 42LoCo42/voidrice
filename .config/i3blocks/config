@@ -29,19 +29,19 @@ signal=11
 interval=once
 signal=4
 
-[torrent]
-interval=20
-signal=7
+#[torrent]
+#interval=20
+#signal=7
 
 [weather]
 interval=18000
 signal=5
 command=weather Prohn
 
-[mailbox]
-label=📬
-interval=180
-signal=12
+#[mailbox]
+#label=📬
+#interval=180
+#signal=12
 
 [memory]
 interval=30

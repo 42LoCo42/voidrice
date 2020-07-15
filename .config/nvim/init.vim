@@ -6,17 +6,15 @@ if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/plugged')
-Plug 'scrooloose/nerdtree'
 Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'LukeSmithxyz/vimling'
 Plug 'vimwiki/vimwiki'
 Plug 'bling/vim-airline'
 Plug 'kovetskiy/sxhkd-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sbdchd/neoformat'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'enomsg/vim-haskellConcealPlus'
-Plug 'alx741/vim-stylishask'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'airblade/vim-gitgutter'
 call plug#end()
@@ -87,14 +85,6 @@ inoremap // //<space>
 
 " Plugin hotkeys ===============================================================
 
-" Nerd tree
-map <leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" CtrlP
-map <silent> C-p :CtrlP()<CR>
-let g:ctrlp_custom_ignore = '\v[\/]dist$'
-
 " Tabular
 let g:haskell_tabular = 1
 vmap a= :Tabularize /=<CR>
@@ -104,11 +94,16 @@ vmap a" :Tabularize /"<CR>
 
 " vimling:
 nm <leader>d :call ToggleDeadKeys()<CR>
-" imap <leader>d <esc>:call ToggleDeadKeys()<CR>a
 nm <leader>i :call ToggleIPA()<CR>
-" imap <leader>i <esc>:call ToggleIPA()<CR>a
 
 " Other settings and autocmds ==================================================
+
+" Run formatter on save
+augroup fmt
+	autocmd!
+	autocmd BufWritePre * undojoin | Neoformat
+augroup END
+
 
 " Ensure files are read as what I want:
 let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}

@@ -1,0 +1,10 @@
+#!/bin/bash
+if ps -e | grep -E "weeb-mode$" >/dev/null; then
+	rm /tmp/weeb-mode-running
+	sudo /usr/bin/pkill -x weeb-mode
+else
+	touch /tmp/weeb-mode-running
+	sudo /usr/bin/weeb-mode /dev/input/by-path/platform-i8042-serio-0-event-kbd &
+fi
+disown -a
+pkill -RTMIN+4 i3blocks

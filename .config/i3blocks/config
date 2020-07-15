@@ -25,6 +25,10 @@ signal=11
 #interval=once
 #signal=8
 
+[weeb-mode-active]
+interval=once
+signal=4
+
 [torrent]
 interval=20
 signal=7

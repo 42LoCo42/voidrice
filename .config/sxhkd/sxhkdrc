@@ -1,4 +1,6 @@
 # Programs
+super + j
+	weeb-mode-toggle
 super + a
 	ddspawn dropdowncalc -f mono:pixelsize=24
 super + shift + a

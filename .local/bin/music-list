@@ -1,0 +1,45 @@
+#!/bin/bash
+
+CONTROL_FILE="/tmp/music-list-running"
+
+getval() {
+	echo "$1" | awk -F  "-" '{print $1}'
+}
+
+# Move to main music directory
+pushd "$1"
+
+# We require a directory with sum 1 as a last option
+onedir=""
+for d in $(ls -d */); do
+	if [ $(getval "$d") == 1 ]; then
+		onefound="$d"
+		break;
+	fi
+done
+
+[ $onefound == "" ] && echo "No directory with sum 1 found!" && exit -1
+
+# Choose a random number in [0,1) with 5 decimal digits
+ran=$(awk -v seed="$RANDOM" 'BEGIN { srand(seed); printf("%.5f\n", rand()) }')
+
+# If number is less or equal than current sum, use directory
+dir="$onedir"
+for d in $(ls -d */); do
+	val=$(getval "$d")
+	isleq=$(echo "scale=5; $ran <= $val" | bc --)
+	if [ $isleq == 1 ]; then
+		dir="$d"
+		break;
+	fi
+done
+
+# Announce & play random file from chosen directory
+file=$(ls "$dir" | shuf -n 1)
+echo "${dir}${file}" > "$CONTROL_FILE"
+pkill -RTMIN+12 i3blocks
+mpv "${dir}${file}"
+
+# Repeat if control file is found
+popd
+[ -e "$CONTROL_FILE" ] && exec "$0" "$@" || pkill -RTMIN+12 i3blocks

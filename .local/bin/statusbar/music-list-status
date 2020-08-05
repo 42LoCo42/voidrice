@@ -1,0 +1,4 @@
+#!/bin/bash
+
+CONTROL_FILE="/tmp/music-list-running"
+[ -e "$CONTROL_FILE" ] && echo -n "🎼" && cat "$CONTROL_FILE"

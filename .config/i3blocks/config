@@ -2,6 +2,9 @@ command=~/.local/bin/statusbar/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+# SIGNALS IN USE
+# 4 5 9 10 11 12
+
 [record]
 command=cat /tmp/recordingicon
 interval=once
@@ -11,6 +14,10 @@ signal=9
 label=🎼
 interval=once
 signal=11
+
+[music-list-status]
+interval=once
+signal=12
 
 #[news]
 #label=📰

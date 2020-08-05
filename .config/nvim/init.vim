@@ -17,6 +17,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'enomsg/vim-haskellConcealPlus'
 Plug 'godlygeek/tabular'
 Plug 'airblade/vim-gitgutter'
+Plug 'hjson/vim-hjson'
 call plug#end()
 
 " Settings =====================================================================
@@ -101,7 +102,7 @@ nm <leader>i :call ToggleIPA()<CR>
 " Run formatter on save
 augroup fmt
 	autocmd!
-	autocmd BufWritePre * undojoin | Neoformat
+	autocmd BufWritePre *.hs undojoin | Neoformat
 augroup END
 
 

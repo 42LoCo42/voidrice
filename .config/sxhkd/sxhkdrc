@@ -6,7 +6,7 @@ super + a
 super + shift + a
 	$TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
 super + c
-	dbus-launch --exit-with-session discord-canary
+	dbus-launch discord-canary
 super + shift + c
 	bluetooth-toggle
 super + d

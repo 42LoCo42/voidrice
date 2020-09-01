@@ -26,7 +26,7 @@ export LESS_TERMCAP_ue="$(printf '%b' '[0m')"; a="${a%_}"
 
 export TERM="st-256color"
 
-mpd >/dev/null 2>&1 &
+pgrep mpd >/dev/null || (mpd >/dev/null 2>&1 &)
 
 [ ! -f ~/.config/shortcutrc ] && shortcuts >/dev/null 2>&1
 

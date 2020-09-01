@@ -1,11 +1,21 @@
 #!/bin/bash
-count=`pkill -c cautoclick`
+
+active=1
+count=`pkill -c xdotool`
+
+stoploop() {
+	active=0
+}
+
+trap stoploop SIGTERM
+
 if (( count > 0 )); then
 	notify-send "Stopped autoclicker!"
 	kill `ps -aux | grep "/bin/bash $0" | grep -v grep | awk '{print $2}'`
+	pkill xdotool
 else
 	notify-send "Started autoclicker!"
-	while true; do
-		cautoclick -i 1 -n 2 -p 1
+	while [ $active == 1 ]; do
+		xdotool click --repeat 1000 --delay 10 1
 	done
 fi

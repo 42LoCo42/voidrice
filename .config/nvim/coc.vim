@@ -136,4 +136,4 @@ nnoremap <silent> <leader><leader>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <leader><leader>p  :<C-u>CocListResume<CR>
 
 " Restart Coc
-nnoremap <C-c> :CocRestart<CR>
+nnoremap <C-c> :CocRestart<CR><CR>

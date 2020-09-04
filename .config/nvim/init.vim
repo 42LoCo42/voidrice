@@ -6,18 +6,19 @@ if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/plugged')
-Plug 'PotatoesMaster/i3-vim-syntax'
+" Tools
 Plug 'LukeSmithxyz/vimling'
 Plug 'vimwiki/vimwiki'
 Plug 'bling/vim-airline'
-Plug 'kovetskiy/sxhkd-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sbdchd/neoformat'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'enomsg/vim-haskellConcealPlus'
 Plug 'godlygeek/tabular'
 Plug 'airblade/vim-gitgutter'
+" Languages
+Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'kovetskiy/sxhkd-vim'
 Plug 'hjson/vim-hjson'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'nbouscal/vim-stylish-haskell'
 call plug#end()
 
 " Settings =====================================================================
@@ -98,13 +99,6 @@ nm <leader>d :call ToggleDeadKeys()<CR>
 nm <leader>i :call ToggleIPA()<CR>
 
 " Other settings and autocmds ==================================================
-
-" Run formatter on save
-augroup fmt
-	autocmd!
-	autocmd BufWritePre *.hs undojoin | Neoformat
-augroup END
-
 
 " Ensure files are read as what I want:
 let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}

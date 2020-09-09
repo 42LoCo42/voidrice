@@ -11,7 +11,7 @@ end
 
 -- Find the string representing the connection's interface (e.g.  eth0)
 function findInterface()
-  local handle = io.popen('route | grep default | awk \'{print $8}\'')
+  local handle = io.popen('route -n | grep 0.0.0.0 | awk \'{print $8}\'')
   local result = handle:read()
   handle:close()
   return result

@@ -13,12 +13,14 @@ Plug 'bling/vim-airline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'godlygeek/tabular'
 Plug 'airblade/vim-gitgutter'
+Plug 'vim-syntastic/syntastic'
 " Languages
 Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'kovetskiy/sxhkd-vim'
 Plug 'hjson/vim-hjson'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'nbouscal/vim-stylish-haskell'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " Settings =====================================================================

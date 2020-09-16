@@ -10,20 +10,9 @@ udp=()
 
 host=""
 
-fifo_dir=""
-
 cleanup() {
-	rm -rf "$fifo_dir"
-}
-
-make_fifo_dir() {
-	fifo_dir="$(mktemp -d /tmp/tuntool.XXXXXXXXXX)"
-	if [[ ! -e "$fifo_dir" ]]; then
-		echo "Failed to create temporary directory!"
-		exit 1
-	fi
-	trap "exit 1" HUP INT PIPE QUIT TERM
-	trap "cleanup" EXIT
+	# shellcheck disable=SC2046
+	kill $(jobs -p)
 }
 
 read_port() {
@@ -93,14 +82,11 @@ parse_args() {
 
 launch_conv() {
 	if [[ "$is_app_client" == 0 ]]; then
-		mkfifo "tu$1"
-		nc -lkp "$1" -e "/usr/bin/tee \"tu$1\" >/dev/null" &
-		nc -u localhost "$1" < "tu$1"
+		ncat -lkp "$1" -c "/usr/bin/ncat -u localhost \"$1\"" &
 		echo "TCP -> UDP on $1"
 	else
 		mkfifo "ut$1"
-		nc -lkup "$1" -e "/usr/bin/tee \"ut$1\" >/dev/null" &
-		nc localhost "$1" < "ut$1"
+		ncat -lkup "$1" -c "/usr/bin/ncat localhost \"$1\"" &
 		echo "UDP -> TCP on $1"
 	fi
 }
@@ -120,8 +106,6 @@ if [[ "$is_ssh_client" == 1 ]]; then
 	echo "Host: $host"
 fi
 
-make_fifo_dir
-pushd "$fifo_dir" >/dev/null || exit 1
 echo
 echo "Launching converters..."
 for i in "${udp[@]}"; do

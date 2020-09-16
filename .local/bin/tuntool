@@ -128,6 +128,9 @@ for i in "${udp[@]}"; do
 	launch_conv "$i"
 done
 
+echo
+echo "Press Ctrl+C to exit"
+
 if [[ "$is_ssh_client" == 1 ]]; then
 	op=$([[ "$is_app_client" == 1 ]] && echo "L" || echo "R")
 
@@ -138,12 +141,9 @@ if [[ "$is_ssh_client" == 1 ]]; then
 	for i in "${udp[@]}"; do
 		params+="-$op $i:localhost:$i "
 	done
-	echo "ssh $params $host"
+	eval "ssh $params $host"
+else
+	while true; do
+		read -r
+	done
 fi
-
-echo
-echo "Press Ctrl+C to exit"
-
-while true; do
-	read -r
-done

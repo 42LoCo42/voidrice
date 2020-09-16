@@ -95,12 +95,12 @@ launch_conv() {
 	if [[ "$is_app_client" == 0 ]]; then
 		mkfifo "tu$1"
 		# shellcheck disable=SC2094
-		{(nc -lp "$1" < "tu$1" | nc -u localhost "$1" > "tu$1") &}
+		{(nc -lkp "$1" < "tu$1" | nc -u localhost "$1" > "tu$1") &}
 		echo "TCP -> UDP on $1"
 	else
 		mkfifo "ut$1"
 		# shellcheck disable=SC2094
-		{(nc -lup "$1" < "ut$1" | nc localhost "$1" > "ut$1") &}
+		{(nc -lkup "$1" < "ut$1" | nc localhost "$1" > "ut$1") &}
 		echo "UDP -> TCP on $1"
 	fi
 }

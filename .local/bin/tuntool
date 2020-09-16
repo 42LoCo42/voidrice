@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+
+unknown_args=()
+
+is_ssh_client=0
+is_app_client=0
+
+tcp=()
+udp=()
+
+host=""
+
+fifo_dir=""
+
+cleanup() {
+	rm -rf "$fifo_dir"
+}
+
+make_fifo_dir() {
+	fifo_dir="$(mktemp -d /tmp/tuntool.XXXXXXXXXX)"
+	if [[ ! -e "$fifo_dir" ]]; then
+		echo "Failed to create temporary directory!"
+		exit 1
+	fi
+	trap "exit 1" HUP INT PIPE QUIT TERM
+	trap "cleanup" EXIT
+}
+
+read_port() {
+	local retval=0
+	case "$2" in
+		''|*[!0-9]*)
+			;;
+		*)
+			if [[ "$1" == "t" ]]; then
+				tcp+=("$2")
+			else
+				udp+=("$2")
+			fi
+			local op="$1"
+			shift
+			shift
+			read_port "$op" "$@"
+			retval=$(( 1 + "$?"))
+			;;
+	esac
+	return "$retval"
+}
+
+parse_args() {
+	while (($# > 0)); do
+		case "$1" in
+		-sS|--ssh-server)
+			is_ssh_client=0
+			shift
+			;;
+		-sC|--ssh-client)
+			is_ssh_client=1
+			shift
+			;;
+		-aS|--app-server)
+			is_app_client=0
+			shift
+			;;
+		-aC|--app-client)
+			is_app_client=1
+			shift
+			;;
+		-t|--tcp--ports)
+			shift
+			read_port "t" "$@"
+			for i in $(seq 1 "$?"); do shift; done
+			;;
+		-u|--udp-ports)
+			shift
+			read_port "u" "$@"
+			for i in $(seq 1 "$?"); do shift; done
+			;;
+		-h|--host)
+			host="$2"
+			shift
+			shift
+			;;
+		*)
+			unknown_args+=("$1")
+			shift
+			;;
+		esac
+	done
+
+	(( ${#unknown_args[@]} > 0 )) && echo "Unknown arguments: ${unknown_args[*]}"
+}
+
+launch_conv() {
+	if [[ "$is_app_client" == 0 ]]; then
+		mkfifo "tu$1"
+		# shellcheck disable=SC2094
+		{(nc -lp "$1" < "tu$1" | nc -u localhost "$1" > "tu$1") &}
+		echo "TCP -> UDP on $1"
+	else
+		mkfifo "ut$1"
+		# shellcheck disable=SC2094
+		{(nc -lup "$1" < "ut$1" | nc localhost "$1" > "ut$1") &}
+		echo "UDP -> TCP on $1"
+	fi
+}
+
+parse_args "$@"
+
+if [[ "$is_ssh_client" == 1 && ! -v host ]]; then
+	echo "No host specified!"
+	exit 1
+fi
+
+echo "Is SSH $([[ "$is_ssh_client" == 1 ]] && echo "client" || echo "server") "
+echo "Is APP $([[ "$is_app_client" == 1 ]] && echo "client" || echo "server") "
+echo "TCP ports: ${tcp[*]}"
+echo "UDP ports: ${udp[*]}"
+if [[ "$is_ssh_client" == 1 ]]; then
+	echo "Host: $host"
+fi
+
+make_fifo_dir
+pushd "$fifo_dir" >/dev/null || exit 1
+echo
+echo "Launching converters..."
+for i in "${udp[@]}"; do
+	launch_conv "$i"
+done
+
+if [[ "$is_ssh_client" == 1 ]]; then
+	op=$([[ "$is_app_client" == 1 ]] && echo "L" || echo "R")
+
+	params=""
+	for i in "${tcp[@]}"; do
+		params+="-$op $i:localhost:$i "
+	done
+	for i in "${udp[@]}"; do
+		params+="-$op $i:localhost:$i "
+	done
+	echo "ssh $params $host"
+fi
+
+echo
+echo "Press Ctrl+C to exit"
+
+while true; do
+	read -r
+done

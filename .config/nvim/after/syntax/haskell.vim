@@ -35,13 +35,3 @@ syntax match hsDoubleArrowRight "=>" contains=hsDoubleArrowRight1,hsDoubleArrowR
 syntax match hsLambda "\\\ze[[:alpha:][:space:]_([]" conceal cchar=λ
 
 syntax match hsMultiply "*\ze[^>]" conceal cchar=×
-
-syntax match hsPi1 contained "p" conceal cchar=π
-syntax match hsPi2 contained "i" conceal cchar= 
-syntax match hsPi "pi" contains=hsPi1,hsPi2
-
-syntax match hsTau1 contained "t" conceal cchar=τ
-syntax match hsTau2 contained "a" conceal cchar= 
-syntax match hsTau3 contained "u" conceal cchar= 
-syntax match hsTau "tau" contains=hsTau1,hsTau2,hsTau3
-

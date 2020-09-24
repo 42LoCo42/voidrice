@@ -21,6 +21,7 @@ Plug 'hjson/vim-hjson'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'nbouscal/vim-stylish-haskell'
 Plug 'rust-lang/rust.vim'
+Plug 'unisonweb/unison', {'rtp': 'editor-support/vim'}
 call plug#end()
 
 " Settings =====================================================================
@@ -46,6 +47,9 @@ highlight clear SignColumn
 set splitbelow splitright
 
 let mapleader = " "
+
+" Real autoread
+set autoread | au CursorHold * checktime | call feedkeys("lh")
 
 " Default bindings =============================================================
 

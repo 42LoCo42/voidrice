@@ -1,5 +1,5 @@
-:set prompt "\x03BB> "
-:set prompt-cont " > "
+:set prompt      "λ> "
+:set prompt-cont "|> "
 
 :set -Wall
 :set -O
@@ -7,8 +7,31 @@
 
 :set -XTemplateHaskell
 :m + Language.Haskell.TH
+
 :def rq (\qs -> return $ "putStrLn $(stringE . show =<< " ++ qs ++ ")")
 :def pq (\qs -> return $ "putStrLn $(stringE . pprint =<< " ++ qs ++ ")")
 :def pf (\qs -> return $ ":!pointfree \"" ++ qs ++ "\"")
 
-:load Main.hs
+-- Typing `:pretty` will turn on the pretty-printing
+:set -package process
+:{
+:def pretty \_ -> pure $ unlines $
+  [ ":{"
+  , "let prettyprint x = System.Process.withCreateProcess cp' $ \\(Just i) _ _ ph -> do"
+  , "        System.IO.hPutStrLn i (show x)"
+  , "        System.IO.hClose i"
+  , "        _ <- System.Process.waitForProcess ph"
+  , "        pure ()"
+  , "      where cp = System.Process.proc \"pp-ghci\" [\"--value\", \"--smarter-layout\"]"
+  , "            cp' = cp{ System.Process.std_out = System.Process.Inherit"
+  , "                    , System.Process.std_err = System.Process.Inherit"
+  , "                    , System.Process.std_in  = System.Process.CreatePipe }"
+  , ":}"
+  , ":set -interactive-print prettyprint"
+  ]
+:}
+
+:pretty
+
+-- Typing `:no-pretty` will turn off the pretty-printing
+:def no-pretty \_ -> pure (":set -interactive-print System.IO.print")

@@ -3,7 +3,7 @@
 CONTROL_FILE="/tmp/music-list-running"
 
 getval() {
-	echo "$1" | awk -F  "-" '{print $1}'
+	echo "$1" | awk -F  "-" '{print $1}' | sed 's/\///g'
 }
 
 # Move to main music directory

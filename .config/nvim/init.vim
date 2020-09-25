@@ -22,6 +22,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'nbouscal/vim-stylish-haskell'
 Plug 'rust-lang/rust.vim'
 Plug 'unisonweb/unison', {'rtp': 'editor-support/vim'}
+Plug 'xavierd/clang_complete'
 call plug#end()
 
 " Settings =====================================================================
@@ -70,6 +71,9 @@ map <C-l> <C-w>l
 
 " Replace all is aliased to S.
 nnoremap S :%s//g<Left><Left>
+
+" Remove trailing whitespace
+noremap <M-Space> :%s/\s\+$//e<CR>''
 
 " Compile document, be it groff/LaTeX/markdown/etc.
 map <leader>c :w! \| !compiler <c-r>%<CR><CR>
@@ -139,6 +143,8 @@ let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
 let g:haskell_enable_typeroles        = 1 " to enable highlighting of type roles
 let g:haskell_enable_static_pointers  = 1 " to enable highlighting of `static`
 let g:haskell_backpack                = 1 " to enable highlighting of backpack keywords
+
+let g:clang_library_path='/usr/lib/libclang.so'
 
 " Load other vim files =========================================================
 

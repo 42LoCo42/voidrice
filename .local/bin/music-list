@@ -35,7 +35,7 @@ for d in *; do
 done
 
 # Announce & play random file from chosen directory
-file=$(find "$dir" | shuf -n 1)
+file=$(find "$dir" -type f | shuf -n 1)
 echo "${file}" > "$CONTROL_FILE"
 pkill -RTMIN+12 i3blocks
 mpv "${file}"

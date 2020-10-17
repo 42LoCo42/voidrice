@@ -21,7 +21,7 @@ Plug 'hjson/vim-hjson'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'nbouscal/vim-stylish-haskell'
 Plug 'rust-lang/rust.vim'
-Plug 'unisonweb/unison', {'rtp': 'editor-support/vim'}
+Plug 'unisonweb/unison', {'branch': 'trunk', 'rtp': 'editor-support/vim'}
 Plug 'xavierd/clang_complete'
 call plug#end()
 
@@ -51,6 +51,10 @@ let mapleader = " "
 
 " Real autoread
 set autoread | au CursorHold * checktime | call feedkeys("lh")
+
+" Invisible chars
+set list
+set listchars=tab:→\ ,extends:»,precedes:«,trail:▒
 
 " Default bindings =============================================================
 
@@ -145,6 +149,9 @@ let g:haskell_enable_static_pointers  = 1 " to enable highlighting of `static`
 let g:haskell_backpack                = 1 " to enable highlighting of backpack keywords
 
 let g:clang_library_path='/usr/lib/libclang.so'
+
+" Syntastic -> shellcheck -> follow sources
+let g:syntastic_sh_shellcheck_args = "-x"
 
 " Load other vim files =========================================================
 

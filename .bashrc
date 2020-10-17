@@ -18,7 +18,8 @@ ${ANSI_BOLD}\
 ${ANSI_RED}[\$? ${ANSI_YELLOW}\u${ANSI_GREEN}@${ANSI_BLUE}\h \
 ${ANSI_GREEN}\$(ip addr show \"\$(route -n | grep -m1 ^0.0.0.0 | awk '{print \$8}')\" | grep \"inet \" | awk '{print \$2}' | sed 's/\\/[0-9]*//g') \
 ${ANSI_PURPLE}\w\
-${ANSI_CYAN}\$(git branch 2>/dev/null | sed -n -e 's/^\\* \\(.*\\)/ \\1/p')\
+${ANSI_CYAN}\$(basename \$(git rev-parse --show-toplevel 2>/dev/null) 2>/dev/null | sed -E 's/(.*)/ \\1:/g')\
+\$(git branch 2>/dev/null | sed -n -e 's/^\\* \\(.*\\)/\\1/p')\
 ${ANSI_RED}]\n${ANSI_WHITE}λ \
 ${ANSI_RESET}\
 "

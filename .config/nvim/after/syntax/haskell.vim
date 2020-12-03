@@ -32,6 +32,10 @@ syntax match hsDoubleArrowRight1 contained "=" conceal cchar=⇒
 syntax match hsDoubleArrowRight2 contained ">" conceal cchar= 
 syntax match hsDoubleArrowRight "=>" contains=hsDoubleArrowRight1,hsDoubleArrowRight2
 
+syntax match hsDoubleDot1 contained "\.\ze\."    conceal cchar=↦
+syntax match hsDoubleDot2 contained "\.\ze[^\.]" conceal cchar= 
+syntax match hsDoubleDot "\.\." contains=hsDoubleDot1,hsDoubleDot2
+
 syntax match hsLambda "\\\ze[[:alpha:][:space:]_([]" conceal cchar=λ
 
 syntax match hsMultiply "*\ze[^>]" conceal cchar=×

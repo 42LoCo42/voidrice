@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 alias ka="killall"
 alias mkd="mkdir -pv"
 alias mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)"
@@ -43,3 +43,12 @@ transcodeAudio() {
 transcodeVideo() {
 	ffmpeg -i "$1" -ar 44100 -ac 2 -b:a 192k "$2"
 }
+
+javaver() {
+	sudo archlinux-java set "java-$1-openjdk"
+}
+
+IFS=$'\n' read -r -d '' -a __aliases <<< "$(alias -p | sed 's/=.*//g' | sed 's/alias //g')"
+for i in "${__aliases[@]}"; do
+	complete -F _complete_alias "$i"
+done

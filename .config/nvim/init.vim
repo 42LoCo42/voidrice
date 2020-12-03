@@ -99,6 +99,9 @@ inoremap /* /*<space><space>*/<Esc>2hi
 inoremap /** /**<space><space>*/<Esc>2hi
 inoremap // //<space>
 
+" Exit terminal with Escape
+tnoremap <Esc> <C-\><C-n>
+
 " Plugin hotkeys ===============================================================
 
 " Tabular
@@ -116,13 +119,9 @@ nm <leader>i :call ToggleIPA()<CR>
 
 " Ensure files are read as what I want:
 let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-let g:vimwiki_list = [{'path': '~/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
 autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
 autocmd BufRead,BufNewFile *.tex set filetype=tex
-
-" When shortcut files are updated, renew bash and vifm configs with new material:
-autocmd BufWritePost ~/.config/bmdirs,~/.config/bmfiles !shortcuts
 
 " Update binds when sxhkdrc is updated.
 autocmd BufWritePost *sxhkdrc !pkill -USR1 sxhkd
@@ -148,10 +147,15 @@ let g:haskell_enable_typeroles        = 1 " to enable highlighting of type roles
 let g:haskell_enable_static_pointers  = 1 " to enable highlighting of `static`
 let g:haskell_backpack                = 1 " to enable highlighting of backpack keywords
 
+" clang_complete
 let g:clang_library_path='/usr/lib/libclang.so'
 
 " Syntastic -> shellcheck -> follow sources
 let g:syntastic_sh_shellcheck_args = "-x"
+
+" vimwiki: default wiki uses markdown
+let g:vimwiki_list = [{'path': '~/HOST/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_global_ext = 0
 
 " Load other vim files =========================================================
 

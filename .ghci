@@ -5,9 +5,6 @@
 :set -O
 :set -cpp -DDEBUG -DDEBUG_IS_MODULE
 
-:set -XTemplateHaskell
-:m + Language.Haskell.TH
-
 :def rq (\qs -> return $ "putStrLn $(stringE . show =<< " ++ qs ++ ")")
 :def pq (\qs -> return $ "putStrLn $(stringE . pprint =<< " ++ qs ++ ")")
 :def pf (\qs -> return $ ":!pointfree \"" ++ qs ++ "\"")

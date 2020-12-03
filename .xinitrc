@@ -9,7 +9,7 @@ setbg & # Set the background
 sxhkd & # Bind keys
 # Properties button extra Mod/Escape
 xmodmap -e 'keycode 135 = Super_R' &
-xset r rate 300 50 &	# Speed xrate up
+xset r rate 300 50 & # Speed xrate up
 unclutter & # Remove mouse when idle
 xcompmgr & # xcompmgr for transparency
 dunst & # dunst for notifications

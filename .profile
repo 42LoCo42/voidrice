@@ -12,8 +12,6 @@ export SUDO_ASKPASS="$HOME/.local/bin/tools/dmenupass"
 export NOTMUCH_CONFIG="$HOME/.config/notmuch-config"
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc-2.0"
 
-export PATH="$PATH:$HOME/.cabal/bin:$HOME/.ghcup/bin"
-
 # less/man colors
 export LESS=-R
 export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"; a="${a%_}"
@@ -26,9 +24,10 @@ export LESS_TERMCAP_ue="$(printf '%b' '[0m')"; a="${a%_}"
 
 export TERM="st-256color"
 
-pgrep mpd >/dev/null || (mpd >/dev/null 2>&1 &)
+export WINEUSERNAME="$USER"
 
-[ ! -f ~/.config/shortcutrc ] && shortcuts >/dev/null 2>&1
+pgrep mpd >/dev/null || (mpd >/dev/null 2>&1 &)
+pgrep pulseaudio >/dev/null || (pulseaudio --start >/dev/null 2>&1 &)
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 

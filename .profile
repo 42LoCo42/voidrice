@@ -31,5 +31,7 @@ pgrep pulseaudio >/dev/null || (pulseaudio --start >/dev/null 2>&1 &)
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 
+export DISPLAY=":0"
+
 # Start graphical server if i3 not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec startx

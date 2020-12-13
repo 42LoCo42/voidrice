@@ -12,18 +12,8 @@ base="${file%.*}"
 
 cd "$dir" || exit
 
-textype() { \
-	command="pdflatex"
-	( sed 5q "$file" | grep -i -q 'xelatex' ) && command="xelatex"
-	$command --output-directory="$dir" "$base" &&
-	grep -i addbibresource "$file" >/dev/null &&
-	biber --input-directory "$dir" "$base" &&
-	$command --output-directory="$dir" "$base" &&
-	$command --output-directory="$dir" "$base"
-}
-
 asciimov() {
-	lastnum=`ls | sed 's/.asciimov//' | sort -g | tail -1`
+	lastnum="$(ls | sed 's/.asciimov//' | sort -g | tail -1)"
 	newnum=$((lastnum+1))
 	cp "$lastnum.asciimov" "$newnum.asciimov"
 	xdotool type ":edit $newnum.asciimov"
@@ -31,22 +21,25 @@ asciimov() {
 }
 
 case "$file" in
-	*\.ms) refer -PS -e "$file" | groff -me -ms -kept -T pdf > "$base".pdf ;;
-	*\.mom) refer -PS -e "$file" | groff -mom -kept -T pdf > "$base".pdf ;;
-	*\.[0-9]) refer -PS -e "$file" | groff -mandoc -T pdf > "$base".pdf ;;
-	*\.rmd) echo "require(rmarkdown); render('$file')" | R -q --vanilla ;;
-	*\.tex) textype "$file" ;;
+	*\.ms)    gcm "$file" | groff -ms     -mden -keptR  > "$base".ps ;;
+	*\.mom)   gcm "$file" | groff -mom    -mden -keptR  > "$base".ps ;;
+	*\.[0-9]) gcm "$file" | groff -mandoc -mden -R      > "$base".ps ;;
+
 	*\.md) pandoc "$file" --from gfm --pdf-engine=xelatex --variable mainfont="DejaVu Sans" -o "$base".pdf ;;
+
 	*config.h) sudo make install ;;
     *\.c) cc "$file" -o "$base" && "$base" ;;
 	*\.py) python "$file" ;;
 	*\.go) go run "$file" ;;
+
 	*\.sent) setsid sent "$file" 2>/dev/null & ;;
+
 	*\.asciimov) asciimov ;;
 	*\.xjmas)
 		runhaskell Main.hs "$file" "$base".xjx.tmp
 		cat DEFAULT.xjx "$base".xjx.tmp > "$base".xjx
 		rm "$base".xjx.tmp ;;
 	*\.asm) ./boot.sh "${file%.*}" ;;
+
 	*) sed 1q "$file" | grep "^#!/" | sed "s/^#!//" | xargs -r -I % "$file" ;;
 esac

@@ -4,7 +4,9 @@ xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 
 # Switch to DE with caps to access APL
-setxkbmap -layout de,apl -option grp:caps_switch
+# setxkbmap -layout de,apl -option grp:caps_switch
+# Switch to DE with caps as CTRL
+setxkbmap -layout de -option ctrl:nocaps
 setbg & # Set the background
 sxhkd & # Bind keys
 # Properties button extra Mod/Escape

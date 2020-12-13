@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$(readlink -f "$0")")" || exit 1
+token="$(<discord-status-token)"
+
+# call other_args...
+req() {
+	call="$1"
+	shift
+	curl -L -H "Authorization: $token" "https://discord.com/api/v8${call}" "$@"
+}
+
+req "/users/@me/settings" \
+	-H "Content-Type: application/json" -X PATCH \
+	-d "{\"status\": \"$1\"}"
+

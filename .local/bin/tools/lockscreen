@@ -3,6 +3,11 @@ IMAGE=/tmp/lockscreen.png
 TEXT=/tmp/locktext.png
 ICON=.local/bin/tools/lockimage.png
 
+mpc pause
+pauseallmpv
+xinput set-int-prop 10 "Device Enabled" 8 0
+xset dpms 0 0 5
+
 maim "$IMAGE"
 convert $IMAGE -scale 10% -scale 1000% -fill black -colorize 40% $IMAGE
 [ -f $TEXT ] || {
@@ -14,3 +19,6 @@ convert $IMAGE $ICON -gravity center -composite -matte $IMAGE
 i3lock -u -i $IMAGE -n
 
 rm $IMAGE $TEXT
+
+xset dpms 0 0 0
+xinput set-int-prop 10 "Device Enabled" 8 1

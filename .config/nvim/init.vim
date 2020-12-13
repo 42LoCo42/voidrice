@@ -58,6 +58,25 @@ set listchars=tab:→\ ,extends:»,precedes:«,trail:▒
 
 " Default bindings =============================================================
 
+" Moving around
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+
+cnoremap <C-h> <Left>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-l> <Right>
+
+" Some nice things
+noremap <C-S> :w<CR>
+inoremap <C-S> <Esc>:w<CR>i
+noremap <C-D> :q<CR>
+noremap <C-S-D> :q!<CR>
+inoremap <C-D> <Esc>
+cnoremap <C-D> <Esc>
+
 " Open tab
 nnoremap <C-End> :tabnew<CR>:edit<Space>
 
@@ -66,6 +85,8 @@ noremap <leader>l :$read !date -I<CR>V$ypi(<Esc>$a)<Esc>0i<BS>]<Esc>0i[<Esc>
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
 map <leader>o :setlocal spell! spelllang=de_de<CR>
+hi clear SpellBad
+hi SpellBad cterm=underline
 
 " Shortcutting split navigation, saving a keypress:
 map <C-h> <C-w>h

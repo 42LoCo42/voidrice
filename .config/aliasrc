@@ -3,28 +3,20 @@ alias ka="killall"
 alias mkd="mkdir -pv"
 alias mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)"
 alias calcurse="calcurse -D ~/.config/calcurse"
-alias p="sudo pacman"
-alias SS="sudo systemctl"
 alias f="$FILE"
 alias g="git"
-alias trem="transmission-remote"
 alias e="$EDITOR"
-alias v="$EDITOR"
 alias x="sxiv -ft *"
-alias sdn="sudo shutdown -h now"
-alias gua="git remote | xargs -L1 git push --all"
-alias ls="ls -hAN --color=auto --group-directories-first"
+alias ls="ls -hA --color=auto --group-directories-first"
 alias grep="grep --color=auto"
 alias diff="diff --color=auto"
 alias ccat="highlight --out-format=ansi"
-alias yt="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'"
+alias yt="youtube-dl -i -o '%(upload_date)s-%(title)s.%(ext)s'"
 alias yta="yt -x -f bestaudio/best"
 alias YT="youtube-viewer -C"
-alias ref="shortcuts >/dev/null; source ~/.config/shortcutrc"
-alias upc="sudo pacman -Syu; pkill -RTMIN+8 i3blocks"
-alias lsp="pacman -Qett --color=always | less"
+alias lsp="yay -Qett --color=always | less"
 alias ffmpeg="ffmpeg -hide_banner"
-alias fuck='sudo `history -p !!`'
+alias fuck='sudo $(history -p !!)'
 alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ghci-core="ghci -ddump-simpl -dsuppress-idinfo -dsuppress-coercions -dsuppress-type-applications -dsuppress-uniques -dsuppress-module-prefixes"
 alias gh="gen-hie | tee hie.yaml"
@@ -46,6 +38,13 @@ transcodeVideo() {
 
 javaver() {
 	sudo archlinux-java set "java-$1-openjdk"
+}
+
+hdf() {
+	last="$(history 1 | cut -d ' ' -f 1)"
+	for i in $(seq 1 "$((last - $1 + 2))"); do
+		history -d "$1"
+	done
 }
 
 IFS=$'\n' read -r -d '' -a __aliases <<< "$(alias -p | sed 's/=.*//g' | sed 's/alias //g')"

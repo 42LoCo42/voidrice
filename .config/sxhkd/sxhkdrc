@@ -1,6 +1,4 @@
 # Programs
-super + j
-	weeb-mode-toggle
 super + a
 	ddspawn dropdowncalc -f mono:pixelsize=24
 super + shift + a
@@ -15,10 +13,14 @@ super + shift + g
 	gimp
 super + i
 	$TERMINAL -e htop
+super + j
+	weeb-mode-toggle
 super + m
 	$TERMINAL -e ncmpcpp
 super + r
 	$TERMINAL -e $FILE
+super + s
+	if [ -f "/tmp/dcdnd" ]; then discord-status "online" && rm "/tmp/dcdnd"; else discord-status "dnd" && touch "/tmp/dcdnd"; fi
 super + v
 	$TERMINAL -e $EDITOR -c "VimwikiIndex"
 super + w
@@ -27,6 +29,7 @@ super + shift + w
 	$BROWSER
 super + y
 	$TERMINAL -e calcurse
+
 super + Return
 	ucc
 super + shift + Return
@@ -42,7 +45,7 @@ super + F3
 super + F5
 	sudo -A systemctl restart NetworkManager
 super + F6
-	transmission-gtk
+	qbittorrent
 super + shift + F6
 	autoclicker
 super + F9
@@ -108,9 +111,7 @@ super + BackSpace
 super + shift + BackSpace
 	prompt "Reboot computer?" "sudo -A shutdown -r now"
 super + x
-	mpc pause; pauseallmpv; xinput set-int-prop 10 "Device Enabled" 8 0; xset dpms 0 0 5; lockscreen && xset dpms 0 0 0 && xinput set-int-prop 10 "Device Enabled" 8 1
-super + shift + x
-	mpc pause; pauseallmpv; xinput set-int-prop 10 "Device Enabled" 8 0; xset dpms 0 0 5; i3lock -e -f -c 1d2021 -n && xset dpms 0 0 0 && xinput set-int-prop 10 "Device Enabled" 8 1
+	lockscreen
 super + F4
 	prompt 'Hibernate computer?' 'sudo systemctl suspend'
 # Logout is i3 message, see below

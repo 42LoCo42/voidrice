@@ -77,8 +77,10 @@ noremap <C-S-D> :q!<CR>
 inoremap <C-D> <Esc>
 cnoremap <C-D> <Esc>
 
-" Open tab
+" Tools for tabs
 nnoremap <C-End> :tabnew<CR>:edit<Space>
+inoremap <C-PageUp> <Esc>:tabprevious<CR>
+inoremap <C-PageDown> <Esc>:tabnext<CR>
 
 " Insert a link to current date
 noremap <leader>l :$read !date -I<CR>V$ypi(<Esc>$a)<Esc>0i<BS>]<Esc>0i[<Esc>
@@ -101,7 +103,7 @@ nnoremap S :%s//g<Left><Left>
 noremap <M-Space> :%s/\s\+$//e<CR>''
 
 " Compile document, be it groff/LaTeX/markdown/etc.
-map <leader>c :w! \| !compiler <c-r>%<CR><CR>
+map <leader>c :w! \| !compiler <c-r>%<CR>
 
 " Open corresponding .pdf/.html or preview
 map <leader>p :!opout <c-r>%<CR><CR>

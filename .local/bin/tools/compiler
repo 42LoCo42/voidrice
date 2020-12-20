@@ -21,9 +21,12 @@ asciimov() {
 }
 
 case "$file" in
-	*\.ms)    gcm "$file" | groff -ms     -mden -keptR  > "$base".ps ;;
-	*\.mom)   gcm "$file" | groff -mom    -mden -keptR  > "$base".ps ;;
-	*\.[0-9]) gcm "$file" | groff -mandoc -mden -R      > "$base".ps ;;
+	# *\.ms)    gcm "$file" | groff -ms     -mden -keptR  > "$base".ps ;;
+	# *\.mom)   gcm "$file" | groff -mom    -mden -keptR  > "$base".ps ;;
+	# *\.[0-9]) gcm "$file" | groff -mandoc -mden -R      > "$base".ps ;;
+	*\.ms)    groff -ms     -mden -keptR "$file"  > "$base".ps ;;
+	*\.mom)   groff -mom    -mden -keptR "$file"  > "$base".ps ;;
+	*\.[0-9]) groff -mandoc -mden -R     "$file"  > "$base".ps ;;
 
 	*\.md) pandoc "$file" --from gfm --pdf-engine=xelatex --variable mainfont="DejaVu Sans" -o "$base".pdf ;;
 

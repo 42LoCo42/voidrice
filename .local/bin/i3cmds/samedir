@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-PID=$(xprop -id "$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')" | grep -m 1 PID | cut -d " " -f 3)
-PID=$(echo "$(pstree -lpA "$PID" | tail -n 1)" | awk -F'---' '{print $NF}' | sed -re 's/[^0-9]//g')
-path="$(readlink /proc/"$PID"/cwd)"
-tmux new-window \; send-keys "cd \"$path\"" Enter
-ucc
+# shellcheck disable=SC2016
+tmux send-keys 'echo "$PWD" >/tmp/tmux-pwd' Enter
+tmux split
+# shellcheck disable=SC2016
+tmux send-keys 'cd "$(</tmp/tmux-pwd)"; rm /tmp/tmux-pwd' Enter

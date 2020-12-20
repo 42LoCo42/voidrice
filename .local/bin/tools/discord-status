@@ -14,3 +14,4 @@ req "/users/@me/settings" \
 	-H "Content-Type: application/json" -X PATCH \
 	-d "{\"status\": \"$1\"}"
 
+notify-send -i "/usr/share/pixmaps/discord.png" "discord-status" "You are now $1"

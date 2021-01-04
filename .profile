@@ -27,7 +27,7 @@ export TERM="st-256color"
 export WINEUSERNAME="$USER"
 
 pgrep mpd >/dev/null || (mpd >/dev/null 2>&1 &)
-pgrep pulseaudio >/dev/null || (pulseaudio --start >/dev/null 2>&1 &)
+pgrep pulseaudio >/dev/null || (pulseaudio --start --log-target=file:/tmp/pulse.log >/dev/null 2>&1 &)
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 

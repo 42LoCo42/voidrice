@@ -4,7 +4,7 @@ super + a
 super + shift + a
 	$TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
 super + c
-	dbus-launch discord
+	if pgrep -a discord; then discord; else dbus-launch discord; fi
 super + shift + c
 	bluetooth-toggle
 super + d
@@ -112,6 +112,8 @@ super + shift + BackSpace
 	prompt "Reboot computer?" "sudo -A shutdown -r now"
 super + x
 	lockscreen
+super + shift + x
+	lockscreen "idle"
 super + F4
 	prompt 'Hibernate computer?' 'sudo systemctl suspend'
 # Logout is i3 message, see below
@@ -123,14 +125,14 @@ super + shift + b
 	i3-msg "floating toggle"; hover left
 super + f
 	i3-msg "fullscreen toggle"
-super + {_,shift +} h
-	i3-msg "move left {5, 30}"
-super + {_,shift +} j
-	i3-msg "move down {5, 30}"
-super + {_,shift +} k
-	i3-msg "move up {5, 30}"
-super + {_,shift +} l
-	i3-msg "move right {5, 30}"
+super + shift + h
+	i3-msg "move left 15"
+super + shift + j
+	i3-msg "move down 15"
+super + shift + k
+	i3-msg "move up 15"
+super + shift + l
+	i3-msg "move right 15"
 super + shift + n
 	i3-msg "floating toggle"; hover right
 super + o

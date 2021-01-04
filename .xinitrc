@@ -7,6 +7,7 @@ xrandr --auto
 # setxkbmap -layout de,apl -option grp:caps_switch
 # Switch to DE with caps as CTRL
 setxkbmap -layout de -option ctrl:nocaps
+xrdb ~/.Xresources # Load X resources
 setbg & # Set the background
 sxhkd & # Bind keys
 # Properties button extra Mod/Escape
@@ -18,4 +19,5 @@ dunst & # dunst for notifications
 mpdupdate &
 calcurse --daemon &
 
+# exec emacs
 exec i3

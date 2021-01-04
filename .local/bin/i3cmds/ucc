@@ -25,8 +25,8 @@ if [ $? != 0 ]; then
 	tmux new-session -s "$SESSION" -n "status" -d
 	tmux send-keys -t "$SESSION" "conky" Enter
 	tmux new-window
-	tmux send-keys -t "$SESSION" 'cd ~/dev/bash/selfbot' Enter
-	tmux send-keys -t "$SESSION" './main' Enter
+	tmux send-keys -t "$SESSION" 'cd ~/dev/bash/bashbot' Enter
+	tmux send-keys -t "$SESSION" './bashbot' Enter
 	tmux new-window
 
 fi

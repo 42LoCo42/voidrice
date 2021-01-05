@@ -96,14 +96,6 @@ super + {_,shift +} adiaeresis
 # Killing windows via super + q is i3 message, see below
 super + shift + q
 	kill -9 `xdotool getwindowfocus getwindowpid`
-super + shift + z
-	i3resize left
-super + shift + u
-	i3resize down
-super + shift + i
-	i3resize up
-super + shift + o
-	i3resize right
 
 # System control commands
 super + BackSpace
@@ -125,14 +117,6 @@ super + shift + b
 	i3-msg "floating toggle"; hover left
 super + f
 	i3-msg "fullscreen toggle"
-super + shift + h
-	i3-msg "move left 15"
-super + shift + j
-	i3-msg "move down 15"
-super + shift + k
-	i3-msg "move up 15"
-super + shift + l
-	i3-msg "move right 15"
 super + shift + n
 	i3-msg "floating toggle"; hover right
 super + o
@@ -161,14 +145,6 @@ super + shift + {Left, Down, Up, Right}
 	i3-msg "move {left, down, up, right}"
 super + ctrl + {Left, Down, Up, Right}
 	i3-msg "move workspace to output {left, down, up, right}"
-super + ctrl + h
-	i3-msg "move workspace to output left"
-super + ctrl + j
-	i3-msg "move workspace to output down"
-super + ctrl + k
-	i3-msg "move workspace to output up"
-super + ctrl + l
-	i3-msg "move workspace to output right"
 super + Tab
 	i3-msg "workspace back_and_forth"
 

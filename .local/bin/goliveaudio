@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+export LC_ALL="C"
+snk="$(pactl info | grep "Default Sink" | sed 's|Default Sink: ||g')"
+mic="$(pactl info | grep "Default Source" | sed 's|Default Source: ||g')"
+
+grep -q ".monitor$" <<< "$mic"
+mic_is_mon="$?"
+
+declare -a modules
+
+IFS=$'\n' read -r -d '' -a modules <<< "$(
+	# Create system sound sink
+	pactl load-module module-null-sink sink_name=SystemSound \
+		sink_properties=device.description=SystemSound
+
+	# Connect system sound to headphones
+	pactl load-module module-loopback source=SystemSound.monitor sink="$snk"
+
+	# Set system sound as default sink
+	pactl set-default-sink SystemSound
+
+	if [ "$mic_is_mon" == "0" ]; then
+		# Set system sound as default source
+		pactl set-default-source SystemSound.monitor
+	else
+		# Create sink for system sound and mic
+		pactl load-module module-null-sink sink_name=SysMicCollector \
+			sink_properties=device.description=SysMicCollector
+
+		# Connect system sound and mic to collector
+		pactl load-module module-loopback source=SystemSound.monitor sink="SysMicCollector"
+		pactl load-module module-loopback source="$mic" sink="SysMicCollector"
+
+		# Set system sound and mic as default source
+		pactl set-default-source SysMicCollector.monitor
+	fi
+)"
+
+discord_index="$(
+	pactl list sink-inputs \
+	| tr '\n' '\036' | sed 's|Sink Input #|\n|g' \
+	| grep WEBRTC | awk '{print $1}'
+)"
+
+snk_id="$(pactl list short sinks | grep "$snk" | awk '{print $1}')"
+pactl move-sink-input "$discord_index" "$snk_id"
+
+# Unload new modules
+read -r -p "ENTER to unload"
+for i in "${modules[@]}"; do
+	pactl unload-module "$i"
+done
+
+# Restore defaults
+pactl set-default-sink "$snk"
+pactl set-default-source "$mic"

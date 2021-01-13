@@ -20,13 +20,14 @@ asciimov() {
 	xdotool key KP_Enter
 }
 
+groffbase() {
+	groff "$1" -mden -I "$HOME/.config/groff" -keptR "$file" > "$base".ps
+}
+
 case "$file" in
-	# *\.ms)    gcm "$file" | groff -ms     -mden -keptR  > "$base".ps ;;
-	# *\.mom)   gcm "$file" | groff -mom    -mden -keptR  > "$base".ps ;;
-	# *\.[0-9]) gcm "$file" | groff -mandoc -mden -R      > "$base".ps ;;
-	*\.ms)    groff -ms     -mden -keptR "$file"  > "$base".ps ;;
-	*\.mom)   groff -mom    -mden -keptR "$file"  > "$base".ps ;;
-	*\.[0-9]) groff -mandoc -mden -R     "$file"  > "$base".ps ;;
+	*\.ms)    groffbase -ms     ;;
+	*\.mom)   groffbase -mom    ;;
+	*\.[0-9]) groffbase -mandoc ;;
 
 	*\.md) pandoc "$file" --from gfm --pdf-engine=xelatex --variable mainfont="DejaVu Sans" -o "$base".pdf ;;
 

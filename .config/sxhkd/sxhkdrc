@@ -4,7 +4,7 @@ super + a
 super + shift + a
 	$TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
 super + c
-	if pgrep -a discord; then discord; else dbus-launch discord; fi
+	discord
 super + shift + c
 	bluetooth-toggle
 super + d
@@ -79,6 +79,12 @@ super + {comma,period}
 # Restart track
 super + shift + less
 	lmc replay
+# Increase mpd volume
+super + control + {plus, asterisk}
+	lmc mpdup {5,15}
+# Decrease mpd volume
+super + control + {minus, underscore}
+	lmc mpddown {5,15}
 # Increase volume
 super + {plus,asterisk}
 	lmc up {5,15}

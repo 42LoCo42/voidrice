@@ -47,14 +47,15 @@ highlight clear SignColumn
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 set splitbelow splitright
 
-let mapleader = " "
-
 " Real autoread
 set autoread | au CursorHold * checktime | call feedkeys("lh")
 
 " Invisible chars
 set list
 set listchars=tab:→\ ,extends:»,precedes:«,trail:▒
+
+" Space is leader
+let mapleader = " "
 
 " Default bindings =============================================================
 

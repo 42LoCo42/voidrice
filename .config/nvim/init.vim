@@ -77,6 +77,8 @@ noremap <C-D> :q<CR>
 noremap <C-S-D> :q!<CR>
 inoremap <C-D> <Esc>
 cnoremap <C-D> <Esc>
+inoremap <C-z> <Esc>ui
+inoremap <C-y> <Esc><C-r>i
 
 " Tools for tabs
 nnoremap <C-End> :tabnew<CR>:edit<Space>

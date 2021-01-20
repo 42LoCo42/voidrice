@@ -4,12 +4,15 @@
 [ -z "$2" ] && num="5" || num="$2"
 
 mpd_vol() {
-	mpd_id="$(
-		pactl list sink-inputs \
-		| grep -B17 'application.name = "Music Player Daemon"' \
-		| awk -F '#' 'NR == 1 {print $2}'
+	new_vol="$(
+		mpc volume "$1" \
+		| sed "3q;d" \
+		| grep -o "[[:digit:]]*"
 	)"
-	pactl set-sink-input-volume "$mpd_id" "$1%"
+	dunstctl close
+	notify-send \
+		-i "/usr/share/icons/hicolor/scalable/apps/mpd.svg" \
+		"mpd volume" "mpd volume now at $new_vol%"
 }
 
 case "$1" in

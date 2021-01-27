@@ -22,8 +22,9 @@ export LESS_TERMCAP_se="$(printf '%b' '[0m')"
 export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
 export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 
+export DISPLAY=":1"
 export TERM="st-256color"
-
+export GPG_TTY="$(tty)"
 export WINEUSERNAME="$USER"
 
 pgrep mpd >/dev/null || (mpd >/dev/null 2>&1 &)
@@ -31,13 +32,17 @@ pgrep pulseaudio >/dev/null || (pulseaudio --start --log-target=file:/tmp/pulse.
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 
-export DISPLAY=":1"
 # shellcheck disable=SC2046
-# we want splitting here, since dbus-launc outputs multiple lines
 grep -Fq "Artix" "/etc/os-release" &&
-[ ! -e "/tmp/dbus-loaded-$USER" ] && \
+[ ! -e "$XDG_RUNTIME_DIR/dbus-loaded-$USER" ] && \
 export $(dbus-launch) && \
-touch "/tmp/dbus-loaded-$USER"
+touch "$XDG_RUNTIME_DIR/dbus-loaded-$USER"
+
+if [ -f "$XDG_RUNTIME_DIR/ssh-agent-$USER" ]; then
+	. "$XDG_RUNTIME_DIR/ssh-agent-$USER"
+else
+	ssh-agent | grep -v "echo" > "$XDG_RUNTIME_DIR/ssh-agent-$USER"
+fi
 
 # Start graphical server if i3 not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec sx

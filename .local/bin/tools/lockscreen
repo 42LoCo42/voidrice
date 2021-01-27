@@ -1,6 +1,5 @@
 #!/bin/bash
 IMAGE=/tmp/lockscreen.png
-TEXT=/tmp/locktext.png
 ICON=.local/bin/tools/lockimage.png
 
 
@@ -9,20 +8,27 @@ if [ -z "$1" ]; then
 	mpc pause
 	pauseallmpv
 	xinput set-int-prop 10 "Device Enabled" 8 0
-	xset dpms 0 0 5
 
-	maim "$IMAGE"
-	convert $IMAGE -scale 10% -scale 1000% -fill black -colorize 40% $IMAGE
-	[ -f $TEXT ] || {
-	    convert -size 1920x60 xc:white -font Linux-Biolinum -pointsize 50 -fill black -gravity center -annotate +0+0 'Type password to unlock' $TEXT;
-	    convert $TEXT -alpha set -channel A -evaluate set 50% $TEXT;
-	}
-	convert $IMAGE $TEXT -gravity center -geometry +0+300 -composite $IMAGE
-	convert $IMAGE $ICON -gravity center -composite -matte $IMAGE
-	i3lock -u -i $IMAGE -n
-	
-	rm $IMAGE $TEXT
-	xset dpms 0 0 0
+	maim "/dev/stdout" \
+	| convert "/dev/stdin" \
+		-scale 10% -scale 1000% \
+		-fill black -colorize 40% "$IMAGE"
+	convert \
+		$IMAGE $ICON \
+		-gravity center -geometry +0-300 \
+		-composite -matte $IMAGE
+	env \
+		XSECURELOCK_NO_COMPOSITE=1 \
+		XSECURELOCK_SAVER="saver_mpv" \
+		XSECURELOCK_IMAGE_DURATION_SECONDS=99999 \
+		XSECURELOCK_LIST_VIDEOS_COMMAND="echo $IMAGE" \
+		XSECURELOCK_BLANK_TIMEOUT=3 \
+		XSECURELOCK_BLANK_DPMS_STATE="off" \
+		XSECURELOCK_SHOW_DATETIME="1" \
+		XSECURELOCK_SHOW_HOSTNAME="1" \
+		xsecurelock
+
+	rm $IMAGE
 	xinput set-int-prop 10 "Device Enabled" 8 1
 	discord-status "online" &
 

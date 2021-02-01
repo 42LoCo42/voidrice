@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # shellcheck disable=SC2016
 tmux send-keys 'echo "$PWD" >/tmp/tmux-pwd' Enter
-tmux split
+tmux split-window -h
 # shellcheck disable=SC2016
 tmux send-keys 'cd "$(</tmp/tmux-pwd)"; rm /tmp/tmux-pwd' Enter

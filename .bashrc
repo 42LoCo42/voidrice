@@ -53,3 +53,5 @@ export PATH="$PATH:$HOME/.stack/programs/x86_64-linux/ghc-tinfo6-8.10.2/bin"
 
 # Safe copypaste
 bind 'set enable-bracketed-paste on'
+# Case insensitive tab completion
+bind 'set completion-ignore-case on'

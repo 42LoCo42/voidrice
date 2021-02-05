@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -e
+
+die() {
+	echo "$@" >&2
+	exit 1
+}
+
+file="$1"
+[ -r "$file" ] || die "$file is not readable!"
+
+installed() {
+	command -v "$1" >/dev/null
+}
+
+notfound() {
+	installed "$1" \
+	|| printf "Warning: %s is not available, this reduces functionality!\n" "$1" >&2
+}
+
+installed "7z" || die "Stopping: 7z not found, please install it!"
+notfound "gzip"
+notfound "bzip2"
+notfound "xz"
+notfound "zstd"
+
+remove_ext() {
+	echo "${file%.*}"
+}
+
+cx() {
+	new="$(remove_ext).$1"
+	mv "$file" "$new"
+	file="$new"
+}
+
+get_type() {
+	type="$(
+		file -bi "$file" \
+		| cut -d ';' -f 1 \
+		| cut -d '/' -f 2
+	)"
+}
+
+get_contents() {
+	7z l "$file" | awk '
+		BEGIN {
+			display = 0
+		}
+		/^[- ]*$/ {
+			if(length($1) == 19) {
+				display = 1 - display
+			}
+			next
+		}
+		{
+			if(display == 1) {
+				print substr($0, 54)
+			}
+		}
+	'
+}
+
+unpack() {
+	case "$type" in
+		# compressed file
+		x-compress)      cx "Z"    ; gzip  -d      "$file" ; : 0 ;;
+		x-bzip2)         cx "bz2"  ; bzip2 -d      "$file" ; : 0 ;;
+		gzip)            cx "gz"   ; gzip  -d      "$file" ; : 0 ;;
+		x-lzma)          cx "lzma" ; xz    -d      "$file" ; : 0 ;;
+		x-xz)            cx "xz"   ; xz    -d      "$file" ; : 0 ;;
+		zstd)            cx "zst"  ; zstd  -d --rm "$file" ; : 0 ;;
+		# archive file
+		x-7z-compressed) cx "7z"   ; : 1 ;;
+		x-tar)           cx "tar"  ; : 1 ;;
+		zip)             cx "zip"  ; : 1 ;;
+		x-rar)           cx "rar"  ; : 1 ;;
+		# unknown file
+		*)                           : 1 ;;
+	esac
+	if [ "$_" == "0" ]; then
+		file="$(remove_ext)"
+		get_type
+		return 0
+	else
+		return 1
+	fi
+}
+
+# initialize file type
+get_type
+
+# run unpack until it fails (has finished)
+while unpack; do :; done
+
+# run checks on toplevel
+tl_pth="$(remove_ext)"
+tl_cnt="$(
+	get_contents | cut -d '/' -f 1 \
+	| sort -u    | wc -l
+)"
+mkdir "$tl_pth" >/dev/null 2>&1 \
+	|| die "Stopping: Directory (or file) $tl_pth exists!"
+
+# extract archive
+if [ "$tl_cnt" == "1" ]; then
+	7z x -o. "$file"
+else
+	7z x -o"$tl_pth" "$file"
+fi

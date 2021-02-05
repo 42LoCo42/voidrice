@@ -34,15 +34,9 @@ echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc
 
 # shellcheck disable=SC2046
 grep -Fq "Artix" "/etc/os-release" &&
-[ ! -e "$XDG_RUNTIME_DIR/dbus-loaded-$USER" ] && \
+[ ! -e "/tmp/dbus-loaded-$USER" ] && \
 export $(dbus-launch) && \
-touch "$XDG_RUNTIME_DIR/dbus-loaded-$USER"
-
-if [ -f "$XDG_RUNTIME_DIR/ssh-agent-$USER" ]; then
-	. "$XDG_RUNTIME_DIR/ssh-agent-$USER"
-else
-	ssh-agent | grep -v "echo" > "$XDG_RUNTIME_DIR/ssh-agent-$USER"
-fi
+touch "/tmp/dbus-loaded-$USER"
 
 # Start graphical server if i3 not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec sx

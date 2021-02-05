@@ -13,16 +13,22 @@ installed() {
 	command -v "$1" >/dev/null
 }
 
-notfound() {
+notfound_stop() {
 	installed "$1" \
-	|| printf "Warning: %s is not available, this reduces functionality!\n" "$1" >&2
+	|| die "Stopping: $1 is not available, please install it!"
 }
 
-installed "7z" || die "Stopping: 7z not found, please install it!"
-notfound "gzip"
-notfound "bzip2"
-notfound "xz"
-notfound "zstd"
+notfound_warn() {
+	installed "$1" \
+	|| echo "Warning: $1 is not available, this reduces functionality!" >&2
+}
+
+notfound_stop "file"
+notfound_stop "7z"
+notfound_warn "gzip"
+notfound_warn "bzip2"
+notfound_warn "xz"
+notfound_warn "zstd"
 
 remove_ext() {
 	echo "${file%.*}"

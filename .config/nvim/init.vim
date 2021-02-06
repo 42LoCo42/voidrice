@@ -79,6 +79,7 @@ inoremap <C-D> <Esc>
 cnoremap <C-D> <Esc>
 inoremap <C-z> <Esc>ui
 inoremap <C-y> <Esc><C-r>i
+nnoremap <C-e> :Explore<CR>
 
 " Tools for tabs
 nnoremap <C-End> :tabnew<CR>:edit<Space>

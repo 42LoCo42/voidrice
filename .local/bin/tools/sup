@@ -71,18 +71,18 @@ get_contents() {
 unpack() {
 	case "$type" in
 		# compressed file
+		gzip)            cx "gz"   ; gzip  -d      "$file" ; : 0 ;;
 		x-compress)      cx "Z"    ; gzip  -d      "$file" ; : 0 ;;
 		x-bzip2)         cx "bz2"  ; bzip2 -d      "$file" ; : 0 ;;
-		gzip)            cx "gz"   ; gzip  -d      "$file" ; : 0 ;;
-		x-lzma)          cx "lzma" ; xz    -d      "$file" ; : 0 ;;
 		x-xz)            cx "xz"   ; xz    -d      "$file" ; : 0 ;;
-		zstd)            cx "zst"  ; zstd  -d --rm "$file" ; : 0 ;;
+		x-lzma)          cx "lzma" ; xz    -d      "$file" ; : 0 ;;
 		x-lz4)           cx "lz4"  ; lz4   -d --rm "$file" ; : 0 ;;
+		zstd)            cx "zst"  ; zstd  -d --rm "$file" ; : 0 ;;
 		# archive file
-		x-7z-compressed) cx "7z"   ; : 1 ;;
 		x-tar)           cx "tar"  ; : 1 ;;
-		zip)             cx "zip"  ; : 1 ;;
+		x-7z-compressed) cx "7z"   ; : 1 ;;
 		x-rar)           cx "rar"  ; : 1 ;;
+		zip)             cx "zip"  ; : 1 ;;
 		# unknown file
 		*)                           : 2 ;;
 	esac
@@ -90,14 +90,20 @@ unpack() {
 		0)
 			file="$(remove_ext)"
 			get_type
+			unpacked_once="1"
 			return 0
 			;;
 		1)
 			return 1
+			unpacked_once="1"
 			;;
 		2)
-			echo "Direct decompression complete!"
-			exit
+			if [ -z "$unpacked_once" ]; then
+				die "Unkown file type $type!"
+			else
+				echo "Single output file: $file"
+				exit
+			fi
 		;;
 	esac
 }
@@ -122,9 +128,9 @@ mkdir "$tl_pth" >/dev/null 2>&1 \
 
 # extract archive
 if [ "$tl_cnt" == "1" ]; then
-	7z x -o. "$file"
+	7z x -o. "$file" >/dev/null
 else
-	7z x -o"$tl_pth" "$file"
+	7z x -o"$tl_pth" "$file" >/dev/null
 fi
 
 # try removing an empty toplevel (this can fail)
@@ -132,3 +138,5 @@ rmdir "$tl_pth" 2>/dev/null || true
 
 # remove archive
 rm "$file"
+
+echo "Output folder: $tl_pth"

@@ -51,6 +51,9 @@ export PATH="$PATH:$HOME/.stack/programs/x86_64-linux/ghc-tinfo6-8.10.2/bin"
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 [ -f "/usr/share/bash-complete-alias/complete_alias" ] && source "/usr/share/bash-complete-alias/complete_alias"
 
+# shellcheck disable=SC2046
+eval $(dircolors)
+
 # Safe copypaste
 bind 'set enable-bracketed-paste on'
 # Case insensitive tab completion

@@ -36,7 +36,7 @@ remove_ext() {
 
 cx() {
 	new="$(remove_ext).$1"
-	mv "$file" "$new"
+	mv "$file" "$new" 2>/dev/null
 	file="$new"
 }
 
@@ -82,15 +82,22 @@ unpack() {
 		zip)             cx "zip"  ; : 1 ;;
 		x-rar)           cx "rar"  ; : 1 ;;
 		# unknown file
-		*)                           : 1 ;;
+		*)                           : 2 ;;
 	esac
-	if [ "$_" == "0" ]; then
-		file="$(remove_ext)"
-		get_type
-		return 0
-	else
-		return 1
-	fi
+	case "$_" in
+		0)
+			file="$(remove_ext)"
+			get_type
+			return 0
+			;;
+		1)
+			return 1
+			;;
+		2)
+			echo "Direct decompression complete!"
+			exit
+		;;
+	esac
 }
 
 # initialize file type

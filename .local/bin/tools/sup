@@ -29,6 +29,7 @@ notfound_warn "gzip"
 notfound_warn "bzip2"
 notfound_warn "xz"
 notfound_warn "zstd"
+notfound_warn "lz4"
 
 remove_ext() {
 	echo "${file%.*}"
@@ -64,7 +65,7 @@ get_contents() {
 				print substr($0, 54)
 			}
 		}
-	'
+	' | cut -d '/' -f 1 | sort -u
 }
 
 unpack() {
@@ -76,6 +77,7 @@ unpack() {
 		x-lzma)          cx "lzma" ; xz    -d      "$file" ; : 0 ;;
 		x-xz)            cx "xz"   ; xz    -d      "$file" ; : 0 ;;
 		zstd)            cx "zst"  ; zstd  -d --rm "$file" ; : 0 ;;
+		x-lz4)           cx "lz4"  ; lz4   -d --rm "$file" ; : 0 ;;
 		# archive file
 		x-7z-compressed) cx "7z"   ; : 1 ;;
 		x-tar)           cx "tar"  ; : 1 ;;
@@ -107,13 +109,16 @@ get_type
 while unpack; do :; done
 
 # run checks on toplevel
-tl_pth="$(remove_ext)"
-tl_cnt="$(
-	get_contents | cut -d '/' -f 1 \
-	| sort -u    | wc -l
-)"
+contents="$(get_contents)"
+tl_cnt="$(wc -l <<< "$contents")"
+if [ "$tl_cnt" == "1" ]; then
+	tl_pth="$contents"
+else
+	tl_pth="$(remove_ext)"
+fi
+
 mkdir "$tl_pth" >/dev/null 2>&1 \
-	|| die "Stopping: Directory (or file) $tl_pth exists!"
+|| die "Stopping: Directory (or file) $tl_pth exists!"
 
 # extract archive
 if [ "$tl_cnt" == "1" ]; then
@@ -121,3 +126,9 @@ if [ "$tl_cnt" == "1" ]; then
 else
 	7z x -o"$tl_pth" "$file"
 fi
+
+# try removing an empty toplevel (this can fail)
+rmdir "$tl_pth" 2>/dev/null || true
+
+# remove archive
+rm "$file"

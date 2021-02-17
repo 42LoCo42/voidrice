@@ -36,3 +36,4 @@ left_meters=AllCPUs Memory Swap Tasks Clock
 left_meter_modes=1 1 1 2 2
 right_meters=AllCPUs Memory Swap LoadAverage Uptime
 right_meter_modes=2 2 2 2 2
+hide_function_bar=0

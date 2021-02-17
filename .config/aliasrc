@@ -64,6 +64,10 @@ npup() {
 	curl -F"file=@$1" https://0x0.st
 }
 
+alltargets() {
+	make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
+}
+
 IFS=$'\n' read -r -d '' -a __aliases <<< "$(
 	alias -p | sed 's/=.*//g' | sed 's/alias //g'
 )"

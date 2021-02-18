@@ -14,15 +14,17 @@ ANSI_PURPLE="\[[38;5;5m\]"
  ANSI_RESET="\[[m\]"
 
 iface() {
-	route -n | grep -m1 ^0.0.0.0 | awk '{print $8}'
+	ip route show default \
+	| grep -o "dev \S*" | cut -d " " -f 2
 }
 
 local_ip() {
-	local data
-	data="$(ip addr show "$(iface)" 2>/dev/null | grep "inet")"
-	[ -z "$data" ] && data="a offline"
-	echo "$data" | awk '{print $2}' \
-	| sed 's|/.*||g' | sed 1q | sed -E 's|(.)$|\1 |g'
+	data="$(
+	ip addr show "$(iface)" 2>/dev/null \
+		| grep -Eom 1 "inet6? [^/]+" | cut -d " " -f 2
+	)"
+	: "${data:=offline}"
+	echo "$data "
 }
 
 git_repo() {

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+
+for f in "$HOME/.config/bash"/*; do
+	[ "$f" == "$HOME/.config/bash/main" ] && continue
+	source "$f"
+done

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+ignore() {
+	gibo dump "$@" > .gitignore
+}
+
+transcodeAudio() {
+	ffmpeg -i "$1" -vn -ar 44100 -ac 2 -b:a 192k "$2"
+}
+
+transcodeVideo() {
+	ffmpeg -i "$1" -ar 44100 -ac 2 -b:a 192k "$2"
+}
+
+javaver() {
+	sudo archlinux-java set "java-$1-openjdk"
+}
+
+hdf() {
+	last="$(history 1 | cut -d ' ' -f 1)"
+	for _ in $(seq 1 "$((last - $1 + 2))"); do
+		history -d "$1"
+	done
+}
+
+npup() {
+	[ -r "$1" ] || {
+		echo "Can't access $1"
+		return 1
+	}
+	curl -F"file=@$1" https://0x0.st
+}
+
+alltargets() {
+	make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
+}
+

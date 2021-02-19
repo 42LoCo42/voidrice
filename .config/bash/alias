@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# utils
+alias ls="ls -hA --color=auto --group-directories-first"
+alias cp="advcp -g"
+alias mv="advmv -g"
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
+alias ccat="highlight --out-format=ansi"
+alias mkdir="mkdir -pv"
+
+# helpers
+alias fuck='sudo $(history -p !!)'
+alias rl="exec \$SHELL -l"
+
+# larger tools
+alias e='$EDITOR'
+alias f='$FILE'
+alias sv="rsv"
+alias wine="PULSE_LATENCY_MSEC=60 wine"
+alias mpv='mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)'
+alias calcurse="calcurse -D ~/.config/calcurse"
+alias ffmpeg="ffmpeg -hide_banner"
+
+# youtube
+alias yt="youtube-dl -i -o '%(upload_date)s-%(title)s.%(ext)s'"
+alias yta="yt -x -f bestaudio/best"
+alias YT="youtube-viewer -C"
+
+# git
+alias g="git"
+alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias gbr='git --git-dir=$PWD/.repo --work-tree=$PWD'
+alias pgl="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+
+# special invocations
+alias x="sxiv -ft *"
+alias lsp="yay -Qett --color=always | less"
+alias web="w3m duckduckgo.com/lite"

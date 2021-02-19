@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+PATH="$PATH:$HOME/.stack/programs/x86_64-linux/ghc-tinfo6-8.10.2/bin"

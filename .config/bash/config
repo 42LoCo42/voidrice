@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Disable ctrl-s and ctrl-q.
+stty -ixon
+
+#Allows you to cd into directory merely by typing the directory name.
+shopt -s autocd
+
+# Infinite history.
+HISTSIZE="" HISTFILESIZE=""
+
+# better colors in ls
+# shellcheck disable=SC2046
+eval $(dircolors)
+
+# Safe copypaste
+bind 'set enable-bracketed-paste on'
+
+# Case insensitive tab completion
+bind 'set completion-ignore-case on'

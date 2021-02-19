@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+
+if [ -f "/tmp/ssh-agent-$USER" ]; then
+	. "/tmp/ssh-agent-$USER"
+else
+	ssh-agent | grep -v "echo" > "/tmp/ssh-agent-$USER"
+fi

@@ -5,7 +5,7 @@ interval=1.5
 [ -n "$1" ] && mif="$1"
 [ -z "$mif" ] && mif="$(ip route show default | grep -o "dev \S*" | cut -d " " -f 2)"
 
-ifconfig | grep -q "$mif" 2>/dev/null || {
+ip link | cut -d " " -f 2 | grep -q "$mif" 2>/dev/null || {
 	echo "Interface $mif not found!"
 	exit 1
 }

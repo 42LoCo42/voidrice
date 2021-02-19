@@ -10,7 +10,7 @@ ip link | cut -d " " -f 2 | grep -q "$mif" 2>/dev/null || {
 	exit 1
 }
 
-prefixes=("" "K" "M" "G")
+prefixes=(" " "K" "M" "G")
 
 conf_pre() {
 	prefix_index="0"

@@ -1,1 +1,1 @@
-/home/leonsch/.config/bash/main
+.config/bash/main

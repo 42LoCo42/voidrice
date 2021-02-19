@@ -39,8 +39,8 @@ while true; do
 	date
 	printf "Traffic RX: "
 	conf_pre "$rx"
-	printf "%-10s %sbit/s\n" "$speed" "$prefix"
+	printf "%7s %sbit/s\n" "$speed" "$prefix"
 	printf "Traffic TX: "
 	conf_pre "$tx"
-	printf "%-10s %sbit/s\n" "$speed" "$prefix"
+	printf "%7s %sbit/s\n" "$speed" "$prefix"
 done

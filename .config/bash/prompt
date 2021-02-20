@@ -5,7 +5,7 @@ ANSI_YELLOW="\[[38;5;3m\]"
 ANSI_BLUE="\[[38;5;4m\]"
 ANSI_PURPLE="\[[38;5;5m\]"
 ANSI_CYAN="\[[38;5;6m\]"
- ANSI_WHITE="\[[38;5;7m\]"
+ANSI_WHITE="\[[38;5;7m\]"
 ANSI_BOLD="\[[1m\]"
 ANSI_RESET="\[[m\]"
 
@@ -58,8 +58,12 @@ _pre_command() {
 _after_command() {
 	exit_status="$?"
 	stop_time="$(date "+%s")"
-	elapsed="$(format_time "$((stop_time - start_time))")"
-	((exit_status == 130)) && elapsed=""
+	if [ -z "$start_time" ] || ((exit_status == 130)); then
+		elapsed=""
+	else
+		elapsed="$(format_time "$((stop_time - start_time))")"
+		start_time=""
+	fi
 PS1="\
 ${ANSI_BOLD}\
 ${ANSI_RED}[${exit_status} \

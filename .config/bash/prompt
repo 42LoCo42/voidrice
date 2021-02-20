@@ -5,7 +5,7 @@ ANSI_YELLOW="\[[38;5;3m\]"
 ANSI_BLUE="\[[38;5;4m\]"
 ANSI_PURPLE="\[[38;5;5m\]"
 ANSI_CYAN="\[[38;5;6m\]"
- ANSI_WHITE="\[[38;5;7m\]"
+ANSI_WHITE="\[[38;5;7m\]"
 ANSI_BOLD="\[[1m\]"
 ANSI_RESET="\[[m\]"
 
@@ -51,7 +51,6 @@ format_time() {
 }
 
 _pre_command() {
-	[ "$BASH_COMMAND" == "$PROMPT_COMMAND" ] && return
 	start_time="$(date "+%s")"
 }
 

@@ -11,7 +11,7 @@ ANSI_RESET="\[[m\]"
 
 iface() {
 	ip route show default \
-	| grep -o "dev \S*" | cut -d " " -f 2
+	| grep -om 1 "dev \S*" | cut -d " " -f 2
 }
 
 local_ip() {

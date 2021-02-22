@@ -1,5 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # Profile file. Runs on login.
+# shellcheck disable=SC2155 disable=SC1090
 
 # Adds `~/.local/bin/` and all subdirectories to $PATH
 export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
@@ -32,11 +33,10 @@ pgrep pulseaudio >/dev/null || (pulseaudio --start --log-target=file:/tmp/pulse.
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 
-# shellcheck disable=SC2046
-grep -Fq "Artix" "/etc/os-release" &&
-[ ! -e "/tmp/dbus-loaded-$USER" ] && \
-export $(dbus-launch) && \
-touch "/tmp/dbus-loaded-$USER"
-
 # Start graphical server if i3 not already running.
-[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec sx
+[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && \
+if grep -Fq "Artix" "/etc/os-release"; then
+	exec dbus-launch --exit-with-session sx
+else
+	exec sx
+fi

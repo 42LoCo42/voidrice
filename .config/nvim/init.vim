@@ -41,6 +41,8 @@ set shiftwidth=4
 set wildmode=longest,list,full
 set updatetime=100
 set colorcolumn=80
+set ignorecase
+set smartcase
 highlight ColorColumn ctermbg=black
 highlight clear SignColumn
 
@@ -71,15 +73,16 @@ cnoremap <C-k> <Up>
 cnoremap <C-l> <Right>
 
 " Some nice things
-noremap <C-S> :w<CR>
-inoremap <C-S> <Esc>:w<CR>i
-noremap <C-D> :q<CR>
-noremap <C-S-D> :q!<CR>
-inoremap <C-D> <Esc>
-cnoremap <C-D> <Esc>
-inoremap <C-z> <Esc>ui
+cnoremap <C-d> <Esc>
+inoremap <C-d> <Esc>
+inoremap <C-s> <Esc>:w<CR>i
 inoremap <C-y> <Esc><C-r>i
+inoremap <C-z> <Esc>ui
+nnoremap <C-S-d> :q!<CR>
+nnoremap <C-d> :q<CR>
 nnoremap <C-e> :Explore<CR>
+nnoremap <C-s> :w<CR>
+vnoremap <C-s> :sort<CR>
 
 " Tools for tabs
 nnoremap <C-End> :tabnew<CR>:edit<Space>
@@ -119,12 +122,12 @@ cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
 inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-inoremap <> <><Esc>i
-inoremap {<CR> {<CR><CR>}<Esc>ki<Tab>
 inoremap /* /*<space><space>*/<Esc>2hi
 inoremap /** /**<space><space>*/<Esc>2hi
 inoremap // //<space>
+inoremap <> <><Esc>i
+inoremap [ []<Esc>i
+inoremap {<CR> {<CR><CR>}<Esc>ki<Tab>
 
 " Exit terminal with Escape
 tnoremap <Esc> <C-\><C-n>

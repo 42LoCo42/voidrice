@@ -25,18 +25,25 @@ export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 
 export DISPLAY=":1"
 export TERM="st-256color"
-export GPG_TTY="$(tty)"
 export WINEUSERNAME="$USER"
+
+# Make xz parallel
+export XZ_DEFAULTS="-T 0"
 
 pgrep mpd >/dev/null || (mpd >/dev/null 2>&1 &)
 pgrep pulseaudio >/dev/null || (pulseaudio --start --log-target=file:/tmp/pulse.log >/dev/null 2>&1 &)
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 
+firefox-sync larbs.default &
+
 # Start graphical server if i3 not already running.
-[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && \
-if grep -Fq "Artix" "/etc/os-release"; then
-	exec dbus-launch --exit-with-session sx
-else
-	exec sx
-fi
+[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && {
+	if grep -Fq "Artix" "/etc/os-release"; then
+		dbus-launch --exit-with-session sx
+	else
+		sx
+	fi
+	firefox-sync larbs.default
+	exit
+}

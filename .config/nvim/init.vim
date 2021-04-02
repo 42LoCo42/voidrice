@@ -75,7 +75,7 @@ cnoremap <C-l> <Right>
 " Some nice things
 cnoremap <C-d> <Esc>
 inoremap <C-d> <Esc>
-inoremap <C-s> <Esc>:w<CR>i
+inoremap <C-s> <Esc>:w<CR>
 inoremap <C-y> <Esc><C-r>i
 inoremap <C-z> <Esc>ui
 nnoremap <C-S-d> :q!<CR>

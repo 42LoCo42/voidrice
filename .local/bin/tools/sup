@@ -123,13 +123,13 @@ else
 	tl_pth="$(remove_ext)"
 fi
 
-mkdir "$tl_pth" >/dev/null 2>&1 \
-|| die "Stopping: Directory (or file) $tl_pth exists!"
+[ -e "$tl_pth" ] && die "Stopping: Directory (or file) $tl_pth exists!"
 
 # extract archive
 if [ "$tl_cnt" == "1" ]; then
 	7z x -o. "$file" >/dev/null
 else
+	mkdir "$tl_pth"
 	7z x -o"$tl_pth" "$file" >/dev/null
 fi
 
@@ -137,6 +137,10 @@ fi
 rmdir "$tl_pth" 2>/dev/null || true
 
 # remove archive
-rm "$file"
+# rm "$file"
 
-echo "Output folder: $tl_pth"
+if [ "$(file -bi "$tl_pth" | cut -d ";" -f 1)" == "inode/directory" ]; then
+	echo "Output folder: $tl_pth"
+else
+	echo "Output file: $tl_pth"
+fi

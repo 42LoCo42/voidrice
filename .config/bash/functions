@@ -34,3 +34,15 @@ alltargets() {
 	make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
 }
 
+multiple_cd() {
+	if grep -q "[^.]" <<< "$*"; then
+		\cd "$@" && ls
+	else
+		c="${#1}"
+		while ((c > 0)); do
+			\cd ..
+			((c = c - 1))
+		done
+		ls
+	fi
+}

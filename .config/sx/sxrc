@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 
 xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --auto
+xrandr -s 1920x1080
 
 # Switch to DE with caps to access APL
 # setxkbmap -layout de,apl -option grp:caps_switch
 # Switch to DE with caps as CTRL
 setxkbmap -layout de -option ctrl:nocaps
-xrdb ~/.Xresources # Load X resources
+xrdb ~/.Xresources & # Load X resources
 setbg & # Set the background
 sxhkd & # Bind keys
 # Properties button extra Mod/Escape
@@ -18,6 +18,10 @@ xcompmgr & # xcompmgr for transparency
 dunst & # dunst for notifications
 mpdupdate &
 calcurse --daemon &
+
+pipewire &
+pipewire-media-session &
+pipewire-pulse &
 
 # exec emacs
 exec i3

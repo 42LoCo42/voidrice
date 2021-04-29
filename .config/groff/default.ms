@@ -27,3 +27,14 @@ define · %
 %
 define / %\[di]%
 .EN
+
+.\" Text background color
+.de TEXTBG
+.nr @wd \w'\\$1'
+\h'.2m'\
+\h'-.2m'\v'(.2m - \\n[rsb]u)'\
+\D'P 0 -(\\n[rst]u - \\n[rsb]u + .4m) (\\n[@wd]u + .4m) 0 0 (\\n[rst]u - \\n[rsb]u + .4m) -(\\n[@wd]u + .4m) 0'\
+\h'.2m'\v'-(.2m - \\n[rsb]u)'\
+\\$1\
+\h'.2m'
+..

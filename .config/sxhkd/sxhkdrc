@@ -1,6 +1,6 @@
 # Programs
 super + a
-	ddspawn dropdowncalc -f mono:pixelsize=24
+	ddspawn dropdowncalc
 super + shift + a
 	$TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
 super + c
@@ -24,7 +24,7 @@ super + s
 super + v
 	$TERMINAL -e $EDITOR -c "VimwikiIndex"
 super + w
-	$TERMINAL -e w3m duckduckgo.com/lite
+	$TERMINAL -e w3m https://lite.duckduckgo.com/lite
 super + shift + w
 	$BROWSER
 super + y
@@ -59,7 +59,7 @@ super + F12
 
 # Take screenshot
 Print
-	maim pic-full-$(date '+%y%m%d-%H%M-%S').png
+	maim "$HOME/screenshots/pic-full-$(date '+%y%m%d-%H%M-%S').png"
 # Pick screenshot type
 shift + Print
 	maimpick
@@ -105,15 +105,13 @@ super + shift + q
 
 # System control commands
 super + BackSpace
-	prompt "Shutdown computer?" "sudo -A shutdown -h now"
+	prompt "Shutdown computer?" "firefox-sync larbs.default && sudo -A shutdown -h now"
 super + shift + BackSpace
-	prompt "Reboot computer?" "sudo -A shutdown -r now"
+	prompt "Reboot computer?" "firefox-sync larbs.default && sudo -A shutdown -r now"
 super + x
 	lockscreen
 super + shift + x
 	lockscreen "idle"
-super + F4
-	prompt 'Hibernate computer?' 'sudo systemctl suspend'
 # Logout is i3 message, see below
 
 # i3 messages

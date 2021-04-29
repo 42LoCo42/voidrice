@@ -18,5 +18,7 @@ bind 'set enable-bracketed-paste on'
 
 # Case insensitive tab completion
 bind 'set completion-ignore-case on'
+bind 'TAB':menu-complete
+bind "set show-all-if-ambiguous on"
 
 export GPG_TTY="$(tty)"
